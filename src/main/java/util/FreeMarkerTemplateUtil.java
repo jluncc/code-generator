@@ -1,10 +1,10 @@
 package util;
 
-import constant.CodeConst;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created by jinglun on 2020-03-08
@@ -19,7 +19,7 @@ public class FreeMarkerTemplateUtil {
 
     public Template getTemplate(String templateName) throws IOException {
         try {
-            return this.configuration.getTemplate(templateName, CodeConst.UTF8);
+            return this.configuration.getTemplate(templateName, StandardCharsets.UTF_8.toString());
         } catch (IOException e) {
             throw e;
         }

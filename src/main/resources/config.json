@@ -1,0 +1,29 @@
+{
+  "orm": "mybatis",
+
+  "dbInfo": {
+    "url": "jdbc:mysql://localhost:3306/test",
+    "username": "username",
+    "password": "password",
+    "driver": "com.mysql.cj.jdbc.Driver",
+    "dbName": "test",
+    "tableName": "users",
+    "tableComment": "测试-表注释"
+  },
+
+  "generatorInfo": {
+    "author": "jinglun",
+    "date": "2020-03-09",
+    "packageBasePath": "/Users/jinglun/Desktop",
+    "packageBaseName": "com",
+    "generatorEntity": {
+      "needGenerate": true,
+      "detailPath": ""
+    }
+  },
+
+  "pluginInfo": {
+    "needSwagger": false,
+    "needLombok": false
+  }
+}

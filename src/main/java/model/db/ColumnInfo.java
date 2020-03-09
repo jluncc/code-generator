@@ -1,4 +1,4 @@
-package bean.db;
+package model.db;
 
 /**
  * 数据库表实体类
@@ -7,6 +7,7 @@ package bean.db;
  */
 public class ColumnInfo {
     private String columnName;
+    private String columnNameFirstLetterUp;
     private String columnType;
     private String columnComment;
 
@@ -16,6 +17,14 @@ public class ColumnInfo {
 
     public void setColumnName(String columnName) {
         this.columnName = columnName;
+    }
+
+    public String getColumnNameFirstLetterUp() {
+        return columnNameFirstLetterUp;
+    }
+
+    public void setColumnNameFirstLetterUp(String columnNameFirstLetterUp) {
+        this.columnNameFirstLetterUp = columnNameFirstLetterUp;
     }
 
     public String getColumnType() {

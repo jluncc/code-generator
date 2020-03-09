@@ -1,12 +1,12 @@
-package bean.config;
+package model.config;
 
 /**
  * 数据库连接配置实体类
  *
  * Created by jinglun on 2020-03-08
  */
-public class DbConfig {
-    private String connectionUrl;
+public class DbInfo {
+    private String url;
     private String username;
     private String password;
     private String driver;
@@ -14,12 +14,12 @@ public class DbConfig {
     private String tableName;
     private String tableComment;
 
-    public String getConnectionUrl() {
-        return connectionUrl;
+    public String getUrl() {
+        return url;
     }
 
-    public void setConnectionUrl(String connectionUrl) {
-        this.connectionUrl = connectionUrl;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getUsername() {
