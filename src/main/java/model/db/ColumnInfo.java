@@ -7,6 +7,7 @@ package model.db;
  */
 public class ColumnInfo {
     private String columnName;
+    private String columnNameOrigin;
     private String columnNameFirstLetterUp;
     private String columnType;
     private String columnComment;
@@ -17,6 +18,14 @@ public class ColumnInfo {
 
     public void setColumnName(String columnName) {
         this.columnName = columnName;
+    }
+
+    public String getColumnNameOrigin() {
+        return columnNameOrigin;
+    }
+
+    public void setColumnNameOrigin(String columnNameOrigin) {
+        this.columnNameOrigin = columnNameOrigin;
     }
 
     public String getColumnNameFirstLetterUp() {

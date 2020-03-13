@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class CodeGenerator {
     public static void main(String[] args) {
-        InputStream stream = CodeGenerator.class.getResourceAsStream(String.format("config.json"));
+        InputStream stream = CodeGenerator.class.getResourceAsStream("config.json");
         try {
             String json = IOUtils.toString(stream, StandardCharsets.UTF_8);
             System.out.println(json);
@@ -24,9 +24,9 @@ public class CodeGenerator {
 
             CodeGeneratorUtil codeGeneratorUtil = new CodeGeneratorUtil(codeGenConfigInfo);
             codeGeneratorUtil.process();
-            System.out.println("执行成功，请检查。");
+            System.out.println("=== 执行成功，请检查。===");
         } catch (IOException e) {
-            System.out.println("执行失败！");
+            System.out.println("=== 执行失败！===");
             e.printStackTrace();
         }
 

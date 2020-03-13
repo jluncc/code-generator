@@ -13,10 +13,13 @@
 
   "generatorInfo": {
     "author": "jinglun",
-    "date": "2020-03-09",
     "packageBasePath": "/Users/jinglun/Desktop",
     "packageBaseName": "com",
     "generatorEntity": {
+      "needGenerate": false,
+      "detailPath": ""
+    },
+    "generatorDao": {
       "needGenerate": true,
       "detailPath": ""
     }
