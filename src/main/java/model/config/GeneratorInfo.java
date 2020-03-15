@@ -9,7 +9,7 @@ public class GeneratorInfo {
     private String author;
     private String date;
     /** 项目存放的物理路径 */
-    private String packageBasePath;
+    private String packageBaseLocation;
     /** 类的基本包名 */
     private String packageBaseName;
     // 需要生成代码的模块
@@ -34,12 +34,12 @@ public class GeneratorInfo {
         this.date = date;
     }
 
-    public String getPackageBasePath() {
-        return packageBasePath;
+    public String getPackageBaseLocation() {
+        return packageBaseLocation;
     }
 
-    public void setPackageBasePath(String packageBasePath) {
-        this.packageBasePath = packageBasePath;
+    public void setPackageBaseLocation(String packageBaseLocation) {
+        this.packageBaseLocation = packageBaseLocation;
     }
 
     public String getPackageBaseName() {

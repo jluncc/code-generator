@@ -13,15 +13,25 @@
 
   "generatorInfo": {
     "author": "jinglun",
-    "packageBasePath": "/Users/jinglun/Desktop",
+    "packageBaseLocation": "/Users/jinglun/Desktop",
     "packageBaseName": "com",
     "generatorEntity": {
       "needGenerate": false,
-      "detailPath": ""
+      "detailPackageName": "/model"
     },
     "generatorDao": {
       "needGenerate": true,
-      "detailPath": ""
+      "detailPackageName": "/mapper"
+    },
+    "generatorService": {
+      "needGenerate": true,
+      "interfaceMode": false,
+      "detailPackageName": "/service"
+    },
+    "generatorController": {
+      "needGenerate": true,
+      "detailPackageName": "/controller",
+      "mappingUrl": "/"
     }
   },
 

@@ -14,6 +14,8 @@ public interface ${tableName}Mapper {
 
     ${tableName} get${tableName}ById(Integer id);
 
+    List<${tableName}> list${tableName}ByEntity(${tableName} ${tableName?uncap_first});
+
     Integer create${tableName}(${tableName} ${tableName?uncap_first});
 
     Integer update${tableName}(${tableName} ${tableName?uncap_first});

@@ -16,15 +16,19 @@ public class CodeGenerator {
     public static void main(String[] args) {
         InputStream stream = CodeGenerator.class.getResourceAsStream("config.json");
         try {
+            Long start = System.currentTimeMillis();
             String json = IOUtils.toString(stream, StandardCharsets.UTF_8);
-            System.out.println(json);
+            System.out.println("读取配置文件--->完成");
 
             CodeGenConfigInfo codeGenConfigInfo = JSONObject.parseObject(json, CodeGenConfigInfo.class);
-            System.out.println(JSONObject.toJSONString(codeGenConfigInfo));
+            System.out.println("转换配置文件--->完成");
+            System.out.println("配置文件信息：" + JSONObject.toJSONString(codeGenConfigInfo));
 
+            System.out.println("=== 开始执行文件生成 ===");
             CodeGeneratorUtil codeGeneratorUtil = new CodeGeneratorUtil(codeGenConfigInfo);
             codeGeneratorUtil.process();
-            System.out.println("=== 执行成功，请检查。===");
+            Long costTime = System.currentTimeMillis() - start;
+            System.out.println("=== 执行成功，耗时 " + costTime +" 毫秒。请检查文件 ===");
         } catch (IOException e) {
             System.out.println("=== 执行失败！===");
             e.printStackTrace();
