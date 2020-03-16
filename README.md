@@ -16,8 +16,8 @@
   -- 数据库连接信息，除 tableComment 外其他皆为必填项
   "dbInfo": {
     "url": "jdbc:mysql://localhost:3306/test",
-    "username": "root",
-    "password": "qweqwe",
+    "username": "username",
+    "password": "password",
     "driver": "com.mysql.cj.jdbc.Driver",
     "dbName": "test",
     "tableName": "users",
