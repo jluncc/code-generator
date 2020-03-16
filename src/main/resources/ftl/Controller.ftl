@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("${mappingUrl}")
-public clazz ${tableName}Controller {
+public class ${tableName}Controller {
     @Resource
     private ${tableName}Service ${tableName?uncap_first}Service;
 
@@ -28,7 +28,7 @@ public clazz ${tableName}Controller {
     @PostMapping("/${tableName?uncap_first}/list")
     public ApiResult list${tableName}ByEntity(@RequestBody ${tableName} ${tableName?uncap_first}) {
         if (${tableName?uncap_first} == null) return ApiResult.fail("参数不符合要求");
-        return ApiResult.success(${tableName?uncap_first}Service.get${tableName}ById(id));
+        return ApiResult.success(${tableName?uncap_first}Service.list${tableName}ByEntity(${tableName?uncap_first}));
     }
 
     @PostMapping("/${tableName?uncap_first}/create")

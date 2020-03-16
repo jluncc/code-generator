@@ -13,6 +13,8 @@ public class ModuleInfo {
     private boolean interfaceMode;
     /** controller层中，当前controller中的基本路径 */
     private String mappingUrl;
+    /** mybatis中生成XML文件的位置 */
+    private String mapperXMLPath;
 
     public boolean isNeedGenerate() {
         return needGenerate;
@@ -44,5 +46,13 @@ public class ModuleInfo {
 
     public void setMappingUrl(String mappingUrl) {
         this.mappingUrl = mappingUrl;
+    }
+
+    public String getMapperXMLPath() {
+        return mapperXMLPath;
+    }
+
+    public void setMapperXMLPath(String mapperXMLPath) {
+        this.mapperXMLPath = mapperXMLPath;
     }
 }

@@ -47,8 +47,8 @@ public class CodeGeneratorUtil {
 
             // 收集表的字段名称，类型，备注
             List<ColumnInfo> columnInfos = new ArrayList<>();
-            ColumnInfo columnInfo = new ColumnInfo();
             while (resultSet.next()) {
+                ColumnInfo columnInfo = new ColumnInfo();
                 columnInfo.setColumnNameOrigin(resultSet.getString("COLUMN_NAME"));
                 columnInfo.setColumnName(StrUtil.line2Hump(resultSet.getString("COLUMN_NAME"), false));
                 columnInfo.setColumnNameFirstLetterUp(StrUtil.line2Hump(resultSet.getString("COLUMN_NAME"), true));
@@ -59,8 +59,8 @@ public class CodeGeneratorUtil {
 
             if (generatorInfo.getGeneratorEntity().isNeedGenerate()) generatorEntity(dbInfo, generatorInfo, columnInfos);
             if (generatorInfo.getGeneratorDao().isNeedGenerate()) generatorDao(dbInfo, generatorInfo, columnInfos);
-            if (generatorInfo.getGeneratorService().isNeedGenerate()) generatorService(columnInfos);
-            if (generatorInfo.getGeneratorController().isNeedGenerate()) generatorController(columnInfos);
+            if (generatorInfo.getGeneratorService().isNeedGenerate()) generatorService(dbInfo, generatorInfo, columnInfos);
+            if (generatorInfo.getGeneratorController().isNeedGenerate()) generatorController(dbInfo, generatorInfo, columnInfos);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,21 +78,21 @@ public class CodeGeneratorUtil {
             filePath = packageBaseLocation + generatorEntity.getDetailPackageName();
             packageName = packageBaseName + generatorEntity.getDetailPackageName().replaceAll("/", ".");
         }
-        setEntityPackageName(packageName);
+        setEntityPackageName(packageName + "." + StrUtil.line2Hump(dbInfo.getTableName(), true));
 
         String finalEntityFilePath = filePath + fileName;
         if (!filePath.endsWith("/")) {
             finalEntityFilePath = filePath + "/" + fileName;
         }
-        System.out.println("=== 生成entity文件的路径为：" + finalEntityFilePath);
+        System.out.println("生成entity文件的路径为：" + finalEntityFilePath);
         // TODO 若目录没有存在，会创建文件失败，待优化
-        File entityFile = new File(filePath + fileName);
+        File entityFile = new File(finalEntityFilePath);
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("columns", columnInfos);
-        //dataMap.put("filePath", finalEntityFilePath);
         dataMap.put("packageName", packageName);
         generatorFileByTemplate("Entity.ftl", entityFile, dataMap);
+        System.out.println("生成entity文件完毕");
     }
 
     private void generatorDao(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
@@ -107,9 +107,9 @@ public class CodeGeneratorUtil {
             String packageName = packageBaseName + ".mapper";
             if (StringUtils.isNotEmpty(generatorDao.getDetailPackageName())) {
                 filePath = packageBaseLocation + generatorDao.getDetailPackageName();
-                packageName = packageBaseName + generatorDao.getDetailPackageName().replaceAll("/", ",");
+                packageName = packageBaseName + generatorDao.getDetailPackageName().replaceAll("/", ".");
             }
-            setDaoPackageName(packageName);
+            setDaoPackageName(packageName + "." + StrUtil.line2Hump(dbInfo.getTableName(), true) + "Mapper");
 
             String entityPackageName = getEntityPackageName();
 
@@ -117,16 +117,16 @@ public class CodeGeneratorUtil {
             if (!filePath.endsWith("/")) {
                 finalDaoFilePath = filePath + "/" + fileName;
             }
-            System.out.println("=== 生成dao文件的路径为：" + finalDaoFilePath);
+            System.out.println("生成dao文件的路径为：" + finalDaoFilePath);
             File mapperFile = new File(finalDaoFilePath);
 
             Map<String, Object> dataMap = new HashMap<>();
             dataMap.put("columns", columnInfos);
-            //dataMap.put("filePath", finalDaoFilePath);
             dataMap.put("packageName", packageName);
             dataMap.put("entityPackageName", entityPackageName);
             generatorFileByTemplate("Mapper.ftl", mapperFile, dataMap);
-            generatorMapperXML(dataMap, packageBaseLocation, dbInfo.getTableName());
+            System.out.println("生成dao文件完毕");
+            generatorMapperXML(dataMap, generatorDao.getMapperXMLPath(), dbInfo.getTableName());
         }
         if (codeGenConfigInfo.getOrm().toLowerCase().equals(BizConstant.ORM.JPA)) {
             System.out.println("待实现...");
@@ -134,19 +134,85 @@ public class CodeGeneratorUtil {
         }
     }
 
-    // TODO
-    private void generatorMapperXML(Map<String, Object> dataMap, String packageBasePath, String tableName) {
-        String finalFilePath = packageBasePath + "/mapper/" + StrUtil.line2Hump(tableName, true) + "Mapper.xml";
-        System.out.println("finalFilePath: " + finalFilePath);
-        File mapperFile = new File(finalFilePath);
-        generatorFileByTemplate("MapperXML.ftl", mapperFile, dataMap);
-        System.out.println("generatorMapperXML done.");
+    private void generatorMapperXML(Map<String, Object> dataMap, String mapperXMLPath, String tableName) {
+        if (StringUtils.isEmpty(mapperXMLPath)) {
+            System.out.println("mapperXMLPath不能为空");
+            return;
+        }
+        String finalMapperXMLPath = mapperXMLPath + StrUtil.line2Hump(tableName, true) + "Mapper.xml";
+        if (!mapperXMLPath.endsWith("/")) {
+            finalMapperXMLPath = mapperXMLPath + "/" + StrUtil.line2Hump(tableName, true) + "Mapper.xml";
+        }
+        System.out.println("生成mapperXML文件的路径为：" + finalMapperXMLPath);
+        File mapperXMLFile = new File(finalMapperXMLPath);
+        generatorFileByTemplate("MapperXML.ftl", mapperXMLFile, dataMap);
+        System.out.println("生成mapperXML文件完毕");
     }
 
-    private void generatorService(List<ColumnInfo> columnInfos) {
+    private void generatorService(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
+        String fileName = StrUtil.line2Hump(dbInfo.getTableName(), true) + "Service.java";
+        String packageBaseLocation = generatorInfo.getPackageBaseLocation();
+        String packageBaseName = generatorInfo.getPackageBaseName();
+        ModuleInfo generatorService = generatorInfo.getGeneratorService();
+
+        String filePath = packageBaseLocation + "/service";
+        String packageName = packageBaseName + ".service";
+        if (StringUtils.isNotEmpty(generatorService.getDetailPackageName())) {
+            filePath = packageBaseLocation + generatorService.getDetailPackageName();
+            packageName = packageBaseName + generatorService.getDetailPackageName().replaceAll("/", ".");
+        }
+        setServicePackageName(packageName + "." + StrUtil.line2Hump(dbInfo.getTableName(), true) + "Service");
+
+        String finalServiceFilePath = filePath + fileName;
+        if (!filePath.endsWith("/")) {
+            finalServiceFilePath = filePath + "/" + fileName;
+        }
+        System.out.println("生成service文件的路径为：" + finalServiceFilePath);
+        File serviceFile = new File(finalServiceFilePath);
+
+        String entityPackageName = getEntityPackageName();
+        String daoPackageName = getDaoPackageName();
+
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("columns", columnInfos);
+        dataMap.put("packageName", packageName);
+        dataMap.put("entityPackageName", entityPackageName);
+        dataMap.put("daoPackageName", daoPackageName);
+        generatorFileByTemplate("Service.ftl", serviceFile, dataMap);
+        System.out.println("生成service文件完毕");
     }
 
-    private void generatorController(List<ColumnInfo> columnInfos) {
+    private void generatorController(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
+        String fileName = StrUtil.line2Hump(dbInfo.getTableName(), true) + "Controller.java";
+        String packageBaseLocation = generatorInfo.getPackageBaseLocation();
+        String packageBaseName = generatorInfo.getPackageBaseName();
+        ModuleInfo generatorController = generatorInfo.getGeneratorController();
+
+        String filePath = packageBaseLocation + "/controller";
+        String packageName = packageBaseName + ".controller";
+        if (StringUtils.isNotEmpty(generatorController.getDetailPackageName())) {
+            filePath = packageBaseLocation + generatorController.getDetailPackageName();
+            packageName = packageBaseName + generatorController.getDetailPackageName().replaceAll("/", ".");
+        }
+
+        String finalControllerFilePath = filePath + fileName;
+        if (!filePath.endsWith("/")) {
+            finalControllerFilePath = filePath + "/" + fileName;
+        }
+        System.out.println("生成controller文件的路径为：" + finalControllerFilePath);
+        File serviceFile = new File(finalControllerFilePath);
+
+        String entityPackageName = getEntityPackageName();
+        String servicePackageName = getServicePackageName();
+
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("columns", columnInfos);
+        dataMap.put("packageName", packageName);
+        dataMap.put("mappingUrl", generatorController.getMappingUrl());
+        dataMap.put("entityPackageName", entityPackageName);
+        dataMap.put("servicePackageName", servicePackageName);
+        generatorFileByTemplate("Controller.ftl", serviceFile, dataMap);
+        System.out.println("生成controller文件完毕");
     }
 
     private void generatorFileByTemplate(String templateName, File file, Map<String, Object> dataMap) {

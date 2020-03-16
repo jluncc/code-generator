@@ -13,15 +13,16 @@
 
   "generatorInfo": {
     "author": "jinglun",
-    "packageBaseLocation": "/Users/jinglun/Desktop",
-    "packageBaseName": "com",
+    "packageBaseLocation": "/Users/jinglun/Desktop/springboot-demo",
+    "packageBaseName": "com.example.demo",
     "generatorEntity": {
-      "needGenerate": false,
+      "needGenerate": true,
       "detailPackageName": "/model"
     },
     "generatorDao": {
       "needGenerate": true,
-      "detailPackageName": "/mapper"
+      "detailPackageName": "/mapper",
+      "mapperXMLPath": "/Users/jinglun/Desktop/springboot-demo/src/main/resources/mapper"
     },
     "generatorService": {
       "needGenerate": true,
@@ -31,7 +32,7 @@
     "generatorController": {
       "needGenerate": true,
       "detailPackageName": "/controller",
-      "mappingUrl": "/"
+      "mappingUrl": "/demo"
     }
   },
 

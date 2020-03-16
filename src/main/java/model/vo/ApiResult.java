@@ -10,14 +10,14 @@ public class ApiResult {
     private String message;
     private Object data;
 
-    public ApiResult success() {
+    public static ApiResult success() {
         ApiResult apiResult = new ApiResult();
         apiResult.setCode(200);
         apiResult.setMessage("success");
         return apiResult;
     }
 
-    public ApiResult success(Object data) {
+    public static ApiResult success(Object data) {
         ApiResult apiResult = new ApiResult();
         apiResult.setCode(200);
         apiResult.setMessage("success");
@@ -25,14 +25,14 @@ public class ApiResult {
         return apiResult;
     }
 
-    public ApiResult fail() {
+    public static ApiResult fail() {
         ApiResult apiResult = new ApiResult();
         apiResult.setCode(-1);
         apiResult.setMessage("fail");
         return apiResult;
     }
 
-    public ApiResult fail(String message) {
+    public static ApiResult fail(String message) {
         ApiResult apiResult = new ApiResult();
         apiResult.setCode(-1);
         apiResult.setMessage(StringUtils.isEmpty(message) ? "fail" : message);

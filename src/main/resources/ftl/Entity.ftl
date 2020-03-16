@@ -62,11 +62,11 @@ public class ${tableName} {
     }
 
         <#elseif (column.columnType = 'TIMESTAMP' || column.columnType = 'DATE' || column.columnType = 'DATETIME')>
-    public String get${column.columnNameFirstLetterUp}() {
+    public Date get${column.columnNameFirstLetterUp}() {
         return ${column.columnName};
     }
 
-    public void set${column.columnNameFirstLetterUp}(String ${column.columnName}) {
+    public void set${column.columnNameFirstLetterUp}(Date ${column.columnName}) {
         this.${column.columnName} = ${column.columnName};
     }
 

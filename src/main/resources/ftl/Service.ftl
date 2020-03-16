@@ -5,6 +5,7 @@ import ${daoPackageName};
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +25,7 @@ public class ${tableName}Service {
 
     public List<${tableName}> list${tableName}ByEntity(${tableName} ${tableName?uncap_first}) {
         if (${tableName?uncap_first} == null) return new ArrayList<>();
-        return
+        return ${tableName?uncap_first}Mapper.list${tableName}ByEntity(${tableName?uncap_first});
     }
 
     public Integer create${tableName}(${tableName} ${tableName?uncap_first}) {
