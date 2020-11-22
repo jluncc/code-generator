@@ -26,8 +26,8 @@
     },
     "generatorService": {
       "needGenerate": true,
-      "interfaceMode": false,
-      "detailPackageName": "/service"
+      "detailPackageName": "/service",
+      "interfaceMode": false
     },
     "generatorController": {
       "needGenerate": true,
@@ -37,7 +37,7 @@
   },
 
   "pluginInfo": {
-    "needSwagger": false,
+    "needSwagger": true,
     "needLombok": false
   }
 }

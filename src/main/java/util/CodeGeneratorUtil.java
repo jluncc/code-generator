@@ -39,6 +39,7 @@ public class CodeGeneratorUtil {
         }
         DbInfo dbInfo = codeGenConfigInfo.getDbInfo();
         GeneratorInfo generatorInfo = codeGenConfigInfo.getGeneratorInfo();
+        PluginInfo pluginInfo = codeGenConfigInfo.getPluginInfo();
 
         try {
             Connection connection = getDbConnection(dbInfo);
@@ -60,7 +61,7 @@ public class CodeGeneratorUtil {
             if (generatorInfo.getGeneratorEntity().isNeedGenerate()) generatorEntity(dbInfo, generatorInfo, columnInfos);
             if (generatorInfo.getGeneratorDao().isNeedGenerate()) generatorDao(dbInfo, generatorInfo, columnInfos);
             if (generatorInfo.getGeneratorService().isNeedGenerate()) generatorService(dbInfo, generatorInfo, columnInfos);
-            if (generatorInfo.getGeneratorController().isNeedGenerate()) generatorController(dbInfo, generatorInfo, columnInfos);
+            if (generatorInfo.getGeneratorController().isNeedGenerate()) generatorController(dbInfo, generatorInfo, columnInfos, pluginInfo);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -182,7 +183,7 @@ public class CodeGeneratorUtil {
         System.out.println("生成service文件完毕");
     }
 
-    private void generatorController(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
+    private void generatorController(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo) {
         String fileName = StrUtil.line2Hump(dbInfo.getTableName(), true) + "Controller.java";
         String packageBaseLocation = generatorInfo.getPackageBaseLocation();
         String packageBaseName = generatorInfo.getPackageBaseName();
@@ -211,6 +212,7 @@ public class CodeGeneratorUtil {
         dataMap.put("mappingUrl", generatorController.getMappingUrl());
         dataMap.put("entityPackageName", entityPackageName);
         dataMap.put("servicePackageName", servicePackageName);
+        dataMap.put("pluginInfo", pluginInfo);
         generatorFileByTemplate("Controller.ftl", serviceFile, dataMap);
         System.out.println("生成controller文件完毕");
     }

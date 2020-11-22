@@ -47,11 +47,11 @@
     -- 是否生成 service 层接口的开关
     "generatorService": {
       "needGenerate": true,
-      -- service 层代码模式：单单实现类，还是需要接口及其实现类。目前只支持单单实现类
-      "interfaceMode": false,
       "detailPackageName": "/service"
+      -- service 层代码模式：单单实现类，还是需要接口及其实现类。目前只支持单单实现类
+      "interfaceMode": false
     },
-    -- 是否生成 controller 层即可的开关
+    -- 是否生成 controller 层接口的开关
     "generatorController": {
       "needGenerate": true,
       "detailPackageName": "/controller",
