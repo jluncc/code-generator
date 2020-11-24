@@ -58,7 +58,7 @@ public class CodeGeneratorUtil {
                 columnInfos.add(columnInfo);
             }
 
-            if (generatorInfo.getGeneratorEntity().isNeedGenerate()) generatorEntity(dbInfo, generatorInfo, columnInfos);
+            if (generatorInfo.getGeneratorEntity().isNeedGenerate()) generatorEntity(dbInfo, generatorInfo, columnInfos, pluginInfo);
             if (generatorInfo.getGeneratorDao().isNeedGenerate()) generatorDao(dbInfo, generatorInfo, columnInfos);
             if (generatorInfo.getGeneratorService().isNeedGenerate()) generatorService(dbInfo, generatorInfo, columnInfos);
             if (generatorInfo.getGeneratorController().isNeedGenerate()) generatorController(dbInfo, generatorInfo, columnInfos, pluginInfo);
@@ -67,7 +67,7 @@ public class CodeGeneratorUtil {
         }
     }
 
-    private void generatorEntity(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
+    private void generatorEntity(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo) {
         String fileName = StrUtil.line2Hump(dbInfo.getTableName(), true) + ".java";
         String packageBaseLocation = generatorInfo.getPackageBaseLocation();
         String packageBaseName = generatorInfo.getPackageBaseName();
@@ -92,6 +92,7 @@ public class CodeGeneratorUtil {
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("columns", columnInfos);
         dataMap.put("packageName", packageName);
+        dataMap.put("pluginInfo", pluginInfo);
         generatorFileByTemplate("Entity.ftl", entityFile, dataMap);
         System.out.println("生成entity文件完毕");
     }

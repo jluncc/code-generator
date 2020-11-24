@@ -38,6 +38,6 @@
 
   "pluginInfo": {
     "needSwagger": true,
-    "needLombok": false
+    "needLombok": true
   }
 }

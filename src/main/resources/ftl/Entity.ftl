@@ -7,6 +7,9 @@ import java.util.Date;
  *
  * Created by ${author} on ${date}
  */
+<#if pluginInfo.needLombok>
+@Data
+</#if>
 public class ${tableName} {
 <#if columns?exists>
     <#list columns as column>
@@ -31,6 +34,7 @@ public class ${tableName} {
     </#list>
 </#if>
 
+<#if !pluginInfo.needLombok>
 <#if columns?exists>
     <#list columns as column>
         <#if (column.columnType = 'INT UNSIGNED' || column.columnType = 'INT'
@@ -83,5 +87,5 @@ public class ${tableName} {
         </#if>
     </#list>
 </#if>
-
+</#if>
 }

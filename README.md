@@ -70,6 +70,6 @@
 
 #### 3. TODO list
 
-- [ ] 支持插件配置信息
-- [ ] 支持 jpa
-- [ ] 支持 service 层接口实现类模式
+1. [x] 支持插件配置信息（swagger, lombok）
+2. [ ] 支持 jpa
+3. [ ] 支持 service 层接口实现类模式
