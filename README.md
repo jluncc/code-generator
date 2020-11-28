@@ -1,4 +1,4 @@
-### Java web 中 CRUD 生成器
+### Java web 中单表 CRUD 生成器
 
 根据表名，生成该表的实体类，dao 层 CRUD 接口，以及相应的 service 层，controller 层接口。
 
@@ -60,7 +60,7 @@
     }
   },
 
-  -- 插件配置相关信息，例如是否需要生成 swagger 注解，lombok 注解等，目前暂不支持
+  -- 插件配置相关信息，例如是否需要生成 swagger 注解，lombok 注解等
   "pluginInfo": {
     "needSwagger": false,
     "needLombok": false
@@ -72,4 +72,4 @@
 
 1. [x] 支持插件配置信息（swagger, lombok）
 2. [ ] 支持 jpa
-3. [ ] 支持 service 层接口实现类模式
+3. [x] 支持 service 层接口实现类模式
