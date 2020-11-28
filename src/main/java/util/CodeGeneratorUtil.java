@@ -153,6 +153,7 @@ public class CodeGeneratorUtil {
 
     private void generatorService(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
         String fileName = StrUtil.line2Hump(dbInfo.getTableName(), true) + "Service.java";
+        String implFileName = StrUtil.line2Hump(dbInfo.getTableName(), true) + "ServiceImpl.java";
         String packageBaseLocation = generatorInfo.getPackageBaseLocation();
         String packageBaseName = generatorInfo.getPackageBaseName();
         ModuleInfo generatorService = generatorInfo.getGeneratorService();
@@ -166,9 +167,12 @@ public class CodeGeneratorUtil {
         setServicePackageName(packageName + "." + StrUtil.line2Hump(dbInfo.getTableName(), true) + "Service");
 
         String finalServiceFilePath = filePath + fileName;
+        String finalServiceImplFilePath = filePath + implFileName;
         if (!filePath.endsWith("/")) {
             finalServiceFilePath = filePath + "/" + fileName;
+            finalServiceImplFilePath = filePath + "/" + implFileName;
         }
+
         System.out.println("生成service文件的路径为：" + finalServiceFilePath);
         File serviceFile = new File(finalServiceFilePath);
 
@@ -180,7 +184,16 @@ public class CodeGeneratorUtil {
         dataMap.put("packageName", packageName);
         dataMap.put("entityPackageName", entityPackageName);
         dataMap.put("daoPackageName", daoPackageName);
-        generatorFileByTemplate("Service.ftl", serviceFile, dataMap);
+        if (generatorService.isInterfaceMode()) {
+            // 生成接口
+            generatorFileByTemplate("ServiceInterface.ftl", serviceFile, dataMap);
+            // 生成接口实现类
+            System.out.println("生成serviceImpl文件的路径为：" + finalServiceImplFilePath);
+            File serviceImplFile = new File(finalServiceImplFilePath);
+            generatorFileByTemplate("ServiceImpl.ftl", serviceImplFile, dataMap);
+        } else {
+            generatorFileByTemplate("Service.ftl", serviceFile, dataMap);
+        }
         System.out.println("生成service文件完毕");
     }
 
