@@ -68,22 +68,22 @@ public class CodeGeneratorUtil {
     }
 
     private void generatorEntity(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo) {
-        String fileName = StrUtil.line2Hump(dbInfo.getTableName(), true) + ".java";
+        String fileName = String.format("%s.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
         String packageBaseLocation = generatorInfo.getPackageBaseLocation();
         String packageBaseName = generatorInfo.getPackageBaseName();
         ModuleInfo generatorEntity = generatorInfo.getGeneratorEntity();
 
-        String filePath = packageBaseLocation + "/model";
-        String packageName = packageBaseName + ".model";
+        String filePath = String.format("%s/model", packageBaseLocation);
+        String packageName = String.format("%s.model", packageBaseLocation);
         if (StringUtils.isNotEmpty(generatorEntity.getDetailPackageName())) {
             filePath = packageBaseLocation + generatorEntity.getDetailPackageName();
             packageName = packageBaseName + generatorEntity.getDetailPackageName().replaceAll("/", ".");
         }
-        setEntityPackageName(packageName + "." + StrUtil.line2Hump(dbInfo.getTableName(), true));
+        setEntityPackageName(String.format("%s.%s", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
 
         String finalEntityFilePath = filePath + fileName;
         if (!filePath.endsWith("/")) {
-            finalEntityFilePath = filePath + "/" + fileName;
+            finalEntityFilePath = String.format("%s/%s", filePath, fileName);
         }
         System.out.println("生成entity文件的路径为：" + finalEntityFilePath);
         // TODO 若目录没有存在，会创建文件失败，待优化

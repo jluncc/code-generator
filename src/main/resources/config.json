@@ -13,7 +13,7 @@
 
   "generatorInfo": {
     "author": "jinglun",
-    "packageBaseLocation": "/Users/jinglun/Desktop/springboot-demo",
+    "packageBaseLocation": "/Users/jinglun/Desktop/springboot-demo/src/main/java/com/example/demo",
     "packageBaseName": "com.example.demo",
     "generatorEntity": {
       "needGenerate": true,
