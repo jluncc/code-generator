@@ -98,26 +98,26 @@ public class CodeGeneratorUtil {
     }
 
     private void generatorDao(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
-        String fileName = StrUtil.line2Hump(dbInfo.getTableName(), true) + "Mapper.java";
+        String fileName = String.format("%sMapper.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
         String packageBaseLocation = generatorInfo.getPackageBaseLocation();
         String packageBaseName = generatorInfo.getPackageBaseName();
         ModuleInfo generatorDao = generatorInfo.getGeneratorDao();
 
         // 如果是mybatis，还要生成mapper文件 TODO mybatis待优化生成注解文件
         if (codeGenConfigInfo.getOrm().toLowerCase().equals(BizConstant.ORM.MyBatis)) {
-            String filePath = packageBaseLocation + "/mapper";
-            String packageName = packageBaseName + ".mapper";
+            String filePath = String.format("%s/mapper", packageBaseLocation);
+            String packageName = String.format("%s,mapper", packageBaseName);
             if (StringUtils.isNotEmpty(generatorDao.getDetailPackageName())) {
                 filePath = packageBaseLocation + generatorDao.getDetailPackageName();
                 packageName = packageBaseName + generatorDao.getDetailPackageName().replaceAll("/", ".");
             }
-            setDaoPackageName(packageName + "." + StrUtil.line2Hump(dbInfo.getTableName(), true) + "Mapper");
+            setDaoPackageName(String.format("%s.%sMapper", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
 
             String entityPackageName = getEntityPackageName();
 
             String finalDaoFilePath = filePath + fileName;
             if (!filePath.endsWith("/")) {
-                finalDaoFilePath = filePath + "/" + fileName;
+                finalDaoFilePath = String.format("%s/%s", filePath, fileName);
             }
             System.out.println("生成dao文件的路径为：" + finalDaoFilePath);
             File mapperFile = new File(finalDaoFilePath);
@@ -132,7 +132,6 @@ public class CodeGeneratorUtil {
         }
         if (codeGenConfigInfo.getOrm().toLowerCase().equals(BizConstant.ORM.JPA)) {
             System.out.println("待实现...");
-            return;
         }
     }
 
@@ -143,7 +142,7 @@ public class CodeGeneratorUtil {
         }
         String finalMapperXMLPath = mapperXMLPath + StrUtil.line2Hump(tableName, true) + "Mapper.xml";
         if (!mapperXMLPath.endsWith("/")) {
-            finalMapperXMLPath = mapperXMLPath + "/" + StrUtil.line2Hump(tableName, true) + "Mapper.xml";
+            finalMapperXMLPath = String.format("%s/%sMapper.xml", mapperXMLPath, StrUtil.line2Hump(tableName, true));
         }
         System.out.println("生成mapperXML文件的路径为：" + finalMapperXMLPath);
         File mapperXMLFile = new File(finalMapperXMLPath);
@@ -152,25 +151,25 @@ public class CodeGeneratorUtil {
     }
 
     private void generatorService(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
-        String fileName = StrUtil.line2Hump(dbInfo.getTableName(), true) + "Service.java";
-        String implFileName = StrUtil.line2Hump(dbInfo.getTableName(), true) + "ServiceImpl.java";
+        String fileName = String.format("%sService.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
+        String implFileName = String.format("%sServiceImpl.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
         String packageBaseLocation = generatorInfo.getPackageBaseLocation();
         String packageBaseName = generatorInfo.getPackageBaseName();
         ModuleInfo generatorService = generatorInfo.getGeneratorService();
 
-        String filePath = packageBaseLocation + "/service";
-        String packageName = packageBaseName + ".service";
+        String filePath = String.format("%s/service", packageBaseLocation);
+        String packageName = String.format("%s.service", packageBaseName);
         if (StringUtils.isNotEmpty(generatorService.getDetailPackageName())) {
             filePath = packageBaseLocation + generatorService.getDetailPackageName();
             packageName = packageBaseName + generatorService.getDetailPackageName().replaceAll("/", ".");
         }
-        setServicePackageName(packageName + "." + StrUtil.line2Hump(dbInfo.getTableName(), true) + "Service");
+        setServicePackageName(String.format("%s.%sService", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
 
         String finalServiceFilePath = filePath + fileName;
         String finalServiceImplFilePath = filePath + implFileName;
         if (!filePath.endsWith("/")) {
-            finalServiceFilePath = filePath + "/" + fileName;
-            finalServiceImplFilePath = filePath + "/" + implFileName;
+            finalServiceFilePath = String.format("%s/%s", filePath, fileName);
+            finalServiceImplFilePath = String.format("%s/%s", filePath, implFileName);
         }
 
         System.out.println("生成service文件的路径为：" + finalServiceFilePath);
@@ -198,13 +197,13 @@ public class CodeGeneratorUtil {
     }
 
     private void generatorController(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo) {
-        String fileName = StrUtil.line2Hump(dbInfo.getTableName(), true) + "Controller.java";
+        String fileName = String.format("%sController.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
         String packageBaseLocation = generatorInfo.getPackageBaseLocation();
         String packageBaseName = generatorInfo.getPackageBaseName();
         ModuleInfo generatorController = generatorInfo.getGeneratorController();
 
-        String filePath = packageBaseLocation + "/controller";
-        String packageName = packageBaseName + ".controller";
+        String filePath = String.format("%s/controller", packageBaseLocation);
+        String packageName = String.format("%s.controller", packageBaseName);
         if (StringUtils.isNotEmpty(generatorController.getDetailPackageName())) {
             filePath = packageBaseLocation + generatorController.getDetailPackageName();
             packageName = packageBaseName + generatorController.getDetailPackageName().replaceAll("/", ".");
@@ -212,7 +211,7 @@ public class CodeGeneratorUtil {
 
         String finalControllerFilePath = filePath + fileName;
         if (!filePath.endsWith("/")) {
-            finalControllerFilePath = filePath + "/" + fileName;
+            finalControllerFilePath = String.format("%s/%s", filePath, fileName);
         }
         System.out.println("生成controller文件的路径为：" + finalControllerFilePath);
         File serviceFile = new File(finalControllerFilePath);
