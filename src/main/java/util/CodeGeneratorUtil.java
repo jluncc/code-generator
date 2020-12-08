@@ -131,7 +131,30 @@ public class CodeGeneratorUtil {
             generatorMapperXML(dataMap, generatorDao.getMapperXMLPath(), dbInfo.getTableName());
         }
         if (codeGenConfigInfo.getOrm().toLowerCase().equals(BizConstant.ORM.JPA)) {
-            System.out.println("待实现...");
+            fileName = String.format("%sRepository.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
+            String filePath = String.format("%s/repository", packageBaseLocation);
+            String packageName = String.format("%s,repository", packageBaseName);
+            if (StringUtils.isNotEmpty(generatorDao.getDetailPackageName())) {
+                filePath = packageBaseLocation + generatorDao.getDetailPackageName();
+                packageName = packageBaseName + generatorDao.getDetailPackageName().replaceAll("/", ".");
+            }
+            setDaoPackageName(String.format("%s.%sRepository", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
+
+            String entityPackageName = getEntityPackageName();
+
+            String finalDaoFilePath = filePath + fileName;
+            if (!filePath.endsWith("/")) {
+                finalDaoFilePath = String.format("%s/%s", filePath, fileName);
+            }
+            System.out.println("生成dao文件的路径为：" + finalDaoFilePath);
+            File repositoryFile = new File(finalDaoFilePath);
+
+            Map<String, Object> dataMap = new HashMap<>();
+            dataMap.put("columns", columnInfos);
+            dataMap.put("packageName", packageName);
+            dataMap.put("entityPackageName", entityPackageName);
+            generatorFileByTemplate("Repository.ftl", repositoryFile, dataMap);
+            System.out.println("生成dao文件完毕");
         }
     }
 
