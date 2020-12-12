@@ -206,6 +206,7 @@ public class CodeGeneratorUtil {
         dataMap.put("packageName", packageName);
         dataMap.put("entityPackageName", entityPackageName);
         dataMap.put("daoPackageName", daoPackageName);
+        dataMap.put("orm", codeGenConfigInfo.getOrm());
         if (generatorService.isInterfaceMode()) {
             // 生成接口
             generatorFileByTemplate("ServiceInterface.ftl", serviceFile, dataMap);
