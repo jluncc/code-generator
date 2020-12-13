@@ -250,6 +250,7 @@ public class CodeGeneratorUtil {
         dataMap.put("entityPackageName", entityPackageName);
         dataMap.put("servicePackageName", servicePackageName);
         dataMap.put("pluginInfo", pluginInfo);
+        dataMap.put("orm", codeGenConfigInfo.getOrm());
         generatorFileByTemplate("Controller.ftl", serviceFile, dataMap);
         System.out.println("生成controller文件完毕");
     }

@@ -10,7 +10,7 @@
 
 ```
 {
-  -- 所使用的 orm 框架，目前只支持 mybatis
+  -- 所使用的 orm 框架，目前支持 mybatis / jpa
   "orm": "mybatis", 
 
   -- 数据库连接信息，除 tableComment 外其他皆为必填项
@@ -48,7 +48,7 @@
     "generatorService": {
       "needGenerate": true,
       "detailPackageName": "/service"
-      -- service 层代码模式：单单实现类，还是需要接口及其实现类。目前只支持单单实现类
+      -- service 层代码模式：单单实现类，还是需要接口及其实现类
       "interfaceMode": false
     },
     -- 是否生成 controller 层接口的开关
@@ -68,8 +68,15 @@
 }
 ```
 
-#### 3. TODO list
+#### 3. 实现功能
 
-1. [x] 支持插件配置信息（swagger, lombok）
-2. [ ] 支持 jpa
-3. [x] 支持 service 层接口实现类模式
+1. [x] 支持 MySQL 数据源
+2. [x] 支持 mybatis / jpa
+3. [x] 支持 service 层接口实现类模式或直接实现类模式
+4. [x] 支持 swagger / lombok 注解配置信息
+
+#### 4. TODO list
+
+1. [ ] 支持多数据源
+2. [ ] 代码重构优化
+3. [ ] 支持自定义对象的生成（ApiResult）

@@ -31,6 +31,7 @@ public class ${tableName}Controller {
         return ApiResult.success(${tableName?uncap_first}Service.get${tableName}ById(id));
     }
 
+    <#if orm == 'mybatis'>
     <#if pluginInfo.needSwagger>
     @ApiOperation("/${tableName?uncap_first}/list接口")
     </#if>
@@ -63,5 +64,19 @@ public class ${tableName}Controller {
         }
         return ApiResult.fail();
     }
+    </#if>
+    <#if orm == 'jpa'>
+    <#if pluginInfo.needSwagger>
+    @ApiOperation("/${tableName?uncap_first}/saveOrUpdate接口")
+    </#if>
+    @PostMapping("/${tableName?uncap_first}/saveOrUpdate")
+    public ApiResult saveOrUpdate${tableName}(@RequestBody ${tableName} ${tableName?uncap_first}) {
+        if (${tableName?uncap_first} == null) return ApiResult.fail("参数不符合要求");
+        if (${tableName?uncap_first}Service.saveOrUpdate${tableName}(${tableName?uncap_first}) > 0) {
+            return ApiResult.success();
+        }
+        return ApiResult.fail();
+    }
+    </#if>
 
 }
