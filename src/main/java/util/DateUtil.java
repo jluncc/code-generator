@@ -16,7 +16,7 @@ public class DateUtil {
     public static String getCurDateStr() {
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        System.out.println(date.format(formatter));
+        LogUtil.SYS.info(date.format(formatter));
         return date.format(formatter);
     }
 

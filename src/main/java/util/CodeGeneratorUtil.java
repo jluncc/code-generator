@@ -34,7 +34,7 @@ public class CodeGeneratorUtil {
 
     public void process() {
         if (!configEffective(codeGenConfigInfo)) {
-            System.out.println("=== 配置信息不合法，请检查配置信息 ===");
+            LogUtil.SYS.info("=== 配置信息不合法，请检查配置信息 ===");
             return;
         }
         DbInfo dbInfo = codeGenConfigInfo.getDbInfo();
@@ -85,7 +85,7 @@ public class CodeGeneratorUtil {
         if (!filePath.endsWith("/")) {
             finalEntityFilePath = String.format("%s/%s", filePath, fileName);
         }
-        System.out.println("生成entity文件的路径为：" + finalEntityFilePath);
+        LogUtil.SYS.info("生成entity文件的路径为：{}", finalEntityFilePath);
         // TODO 若目录没有存在，会创建文件失败，待优化
         File entityFile = new File(finalEntityFilePath);
 
@@ -94,7 +94,7 @@ public class CodeGeneratorUtil {
         dataMap.put("packageName", packageName);
         dataMap.put("pluginInfo", pluginInfo);
         generatorFileByTemplate("Entity.ftl", entityFile, dataMap);
-        System.out.println("生成entity文件完毕");
+        LogUtil.SYS.info("生成entity文件完毕");
     }
 
     private void generatorDao(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
@@ -119,7 +119,7 @@ public class CodeGeneratorUtil {
             if (!filePath.endsWith("/")) {
                 finalDaoFilePath = String.format("%s/%s", filePath, fileName);
             }
-            System.out.println("生成dao文件的路径为：" + finalDaoFilePath);
+            LogUtil.SYS.info("生成dao文件的路径为：{}", finalDaoFilePath);
             File mapperFile = new File(finalDaoFilePath);
 
             Map<String, Object> dataMap = new HashMap<>();
@@ -127,7 +127,7 @@ public class CodeGeneratorUtil {
             dataMap.put("packageName", packageName);
             dataMap.put("entityPackageName", entityPackageName);
             generatorFileByTemplate("Mapper.ftl", mapperFile, dataMap);
-            System.out.println("生成dao文件完毕");
+            LogUtil.SYS.info("生成dao文件完毕");
             generatorMapperXML(dataMap, generatorDao.getMapperXMLPath(), dbInfo.getTableName());
         }
         if (codeGenConfigInfo.getOrm().toLowerCase().equals(BizConstant.ORM.JPA)) {
@@ -146,7 +146,7 @@ public class CodeGeneratorUtil {
             if (!filePath.endsWith("/")) {
                 finalDaoFilePath = String.format("%s/%s", filePath, fileName);
             }
-            System.out.println("生成dao文件的路径为：" + finalDaoFilePath);
+            LogUtil.SYS.info("生成dao文件的路径为：{}", finalDaoFilePath);
             File repositoryFile = new File(finalDaoFilePath);
 
             Map<String, Object> dataMap = new HashMap<>();
@@ -154,23 +154,23 @@ public class CodeGeneratorUtil {
             dataMap.put("packageName", packageName);
             dataMap.put("entityPackageName", entityPackageName);
             generatorFileByTemplate("Repository.ftl", repositoryFile, dataMap);
-            System.out.println("生成dao文件完毕");
+            LogUtil.SYS.info("生成dao文件完毕");
         }
     }
 
     private void generatorMapperXML(Map<String, Object> dataMap, String mapperXMLPath, String tableName) {
         if (StringUtils.isEmpty(mapperXMLPath)) {
-            System.out.println("mapperXMLPath不能为空");
+            LogUtil.SYS.info("mapperXMLPath不能为空");
             return;
         }
         String finalMapperXMLPath = mapperXMLPath + StrUtil.line2Hump(tableName, true) + "Mapper.xml";
         if (!mapperXMLPath.endsWith("/")) {
             finalMapperXMLPath = String.format("%s/%sMapper.xml", mapperXMLPath, StrUtil.line2Hump(tableName, true));
         }
-        System.out.println("生成mapperXML文件的路径为：" + finalMapperXMLPath);
+        LogUtil.SYS.info("生成mapperXML文件的路径为：{}", finalMapperXMLPath);
         File mapperXMLFile = new File(finalMapperXMLPath);
         generatorFileByTemplate("MapperXML.ftl", mapperXMLFile, dataMap);
-        System.out.println("生成mapperXML文件完毕");
+        LogUtil.SYS.info("生成mapperXML文件完毕");
     }
 
     private void generatorService(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
@@ -195,7 +195,7 @@ public class CodeGeneratorUtil {
             finalServiceImplFilePath = String.format("%s/%s", filePath, implFileName);
         }
 
-        System.out.println("生成service文件的路径为：" + finalServiceFilePath);
+        LogUtil.SYS.info("生成service文件的路径为：{}", finalServiceFilePath);
         File serviceFile = new File(finalServiceFilePath);
 
         String entityPackageName = getEntityPackageName();
@@ -211,13 +211,13 @@ public class CodeGeneratorUtil {
             // 生成接口
             generatorFileByTemplate("ServiceInterface.ftl", serviceFile, dataMap);
             // 生成接口实现类
-            System.out.println("生成serviceImpl文件的路径为：" + finalServiceImplFilePath);
+            LogUtil.SYS.info("生成serviceImpl文件的路径为：{}", finalServiceImplFilePath);
             File serviceImplFile = new File(finalServiceImplFilePath);
             generatorFileByTemplate("ServiceImpl.ftl", serviceImplFile, dataMap);
         } else {
             generatorFileByTemplate("Service.ftl", serviceFile, dataMap);
         }
-        System.out.println("生成service文件完毕");
+        LogUtil.SYS.info("生成service文件完毕");
     }
 
     private void generatorController(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo) {
@@ -237,7 +237,7 @@ public class CodeGeneratorUtil {
         if (!filePath.endsWith("/")) {
             finalControllerFilePath = String.format("%s/%s", filePath, fileName);
         }
-        System.out.println("生成controller文件的路径为：" + finalControllerFilePath);
+        LogUtil.SYS.info("生成controller文件的路径为：{}", finalControllerFilePath);
         File serviceFile = new File(finalControllerFilePath);
 
         String entityPackageName = getEntityPackageName();
@@ -252,7 +252,7 @@ public class CodeGeneratorUtil {
         dataMap.put("pluginInfo", pluginInfo);
         dataMap.put("orm", codeGenConfigInfo.getOrm());
         generatorFileByTemplate("Controller.ftl", serviceFile, dataMap);
-        System.out.println("生成controller文件完毕");
+        LogUtil.SYS.info("生成controller文件完毕");
     }
 
     private void generatorFileByTemplate(String templateName, File file, Map<String, Object> dataMap) {
@@ -279,7 +279,7 @@ public class CodeGeneratorUtil {
      */
     private boolean configEffective(CodeGenConfigInfo codeGenConfigInfo) {
         if (StringUtils.isEmpty(codeGenConfigInfo.getOrm())) {
-            System.out.println("=== 参数校验异常：orm框架不能为空！===");
+            LogUtil.SYS.info("=== 参数校验异常：orm框架不能为空！===");
             return false;
         }
 
@@ -287,7 +287,7 @@ public class CodeGeneratorUtil {
         if (dbInfo == null || StringUtils.isEmpty(dbInfo.getUrl()) || StringUtils.isEmpty(dbInfo.getUsername())
                 || StringUtils.isEmpty(dbInfo.getPassword()) || StringUtils.isEmpty(dbInfo.getDriver())
                 || StringUtils.isEmpty(dbInfo.getDbName()) || StringUtils.isEmpty(dbInfo.getTableName())) {
-            System.out.println("=== 参数校验异常：数据库配置信息异常！===");
+            LogUtil.SYS.info("=== 参数校验异常：数据库配置信息异常！===");
             return false;
         }
 
@@ -296,13 +296,13 @@ public class CodeGeneratorUtil {
                 || StringUtils.isEmpty(generatorInfo.getPackageBaseName()) || generatorInfo.getGeneratorEntity() == null
                 || generatorInfo.getGeneratorDao() == null || generatorInfo.getGeneratorService() == null
                 || generatorInfo.getGeneratorController() == null) {
-            System.out.println("=== 参数校验异常：生成文件配置信息异常！===");
+            LogUtil.SYS.info("=== 参数校验异常：生成文件配置信息异常！===");
             return false;
         }
 
         PluginInfo pluginInfo = codeGenConfigInfo.getPluginInfo();
         if (pluginInfo == null) {
-            System.out.println("=== 参数校验异常：插件配置信息异常！===");
+            LogUtil.SYS.info("=== 参数校验异常：插件配置信息异常！===");
             return false;
         }
 
