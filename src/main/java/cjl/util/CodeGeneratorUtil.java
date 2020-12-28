@@ -1,11 +1,14 @@
-package util;
+package cjl.util;
 
-import constant.BizConstant;
+import cjl.constant.BizConstant;
+import cjl.model.config.*;
+import cjl.model.db.ColumnInfo;
+import cjl.service.generateStrategy.GenerateStrategyFactory;
 import freemarker.template.Template;
-import model.config.*;
-import model.db.ColumnInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
@@ -22,8 +25,13 @@ import java.util.Map;
  *
  * Created by jinglun on 2020-03-08
  */
+@Component
 public class CodeGeneratorUtil {
-    private CodeGenConfigInfo codeGenConfigInfo;
+
+    @Resource
+    private GenerateStrategyFactory generateStrategyFactory;
+
+    private final CodeGenConfigInfo codeGenConfigInfo;
     private String entityPackageName = "";
     private String daoPackageName = "";
     private String servicePackageName = "";
@@ -58,12 +66,15 @@ public class CodeGeneratorUtil {
                 columnInfos.add(columnInfo);
             }
 
+            //if (generatorInfo.getGeneratorEntity().isNeedGenerate())
+            //    generateStrategyFactory.get(BizConstant.GENERATE_STRATEGY.ENTITY).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo);
+
             if (generatorInfo.getGeneratorEntity().isNeedGenerate()) generatorEntity(dbInfo, generatorInfo, columnInfos, pluginInfo);
             if (generatorInfo.getGeneratorDao().isNeedGenerate()) generatorDao(dbInfo, generatorInfo, columnInfos);
             if (generatorInfo.getGeneratorService().isNeedGenerate()) generatorService(dbInfo, generatorInfo, columnInfos);
             if (generatorInfo.getGeneratorController().isNeedGenerate()) generatorController(dbInfo, generatorInfo, columnInfos, pluginInfo);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.SYS.error("处理文件生成出现异常。", e);
         }
     }
 
@@ -73,8 +84,8 @@ public class CodeGeneratorUtil {
         String packageBaseName = generatorInfo.getPackageBaseName();
         ModuleInfo generatorEntity = generatorInfo.getGeneratorEntity();
 
-        String filePath = String.format("%s/model", packageBaseLocation);
-        String packageName = String.format("%s.model", packageBaseLocation);
+        String filePath = String.format("%s/cjl.model", packageBaseLocation);
+        String packageName = String.format("%s.cjl.model", packageBaseLocation);
         if (StringUtils.isNotEmpty(generatorEntity.getDetailPackageName())) {
             filePath = packageBaseLocation + generatorEntity.getDetailPackageName();
             packageName = packageBaseName + generatorEntity.getDetailPackageName().replaceAll("/", ".");
@@ -104,7 +115,7 @@ public class CodeGeneratorUtil {
         ModuleInfo generatorDao = generatorInfo.getGeneratorDao();
 
         // 如果是mybatis，还要生成mapper文件 TODO mybatis待优化生成注解文件
-        if (codeGenConfigInfo.getOrm().toLowerCase().equals(BizConstant.ORM.MyBatis)) {
+        if (codeGenConfigInfo.getOrm().equalsIgnoreCase(BizConstant.ORM.MyBatis)) {
             String filePath = String.format("%s/mapper", packageBaseLocation);
             String packageName = String.format("%s,mapper", packageBaseName);
             if (StringUtils.isNotEmpty(generatorDao.getDetailPackageName())) {
@@ -130,7 +141,7 @@ public class CodeGeneratorUtil {
             LogUtil.SYS.info("生成dao文件完毕");
             generatorMapperXML(dataMap, generatorDao.getMapperXMLPath(), dbInfo.getTableName());
         }
-        if (codeGenConfigInfo.getOrm().toLowerCase().equals(BizConstant.ORM.JPA)) {
+        if (codeGenConfigInfo.getOrm().equalsIgnoreCase(BizConstant.ORM.JPA)) {
             fileName = String.format("%sRepository.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
             String filePath = String.format("%s/repository", packageBaseLocation);
             String packageName = String.format("%s,repository", packageBaseName);
@@ -180,8 +191,8 @@ public class CodeGeneratorUtil {
         String packageBaseName = generatorInfo.getPackageBaseName();
         ModuleInfo generatorService = generatorInfo.getGeneratorService();
 
-        String filePath = String.format("%s/service", packageBaseLocation);
-        String packageName = String.format("%s.service", packageBaseName);
+        String filePath = String.format("%s/cjl.service", packageBaseLocation);
+        String packageName = String.format("%s.cjl.service", packageBaseName);
         if (StringUtils.isNotEmpty(generatorService.getDetailPackageName())) {
             filePath = packageBaseLocation + generatorService.getDetailPackageName();
             packageName = packageBaseName + generatorService.getDetailPackageName().replaceAll("/", ".");

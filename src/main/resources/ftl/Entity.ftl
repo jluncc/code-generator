@@ -1,6 +1,6 @@
 package ${packageName};
 
-import java.util.Date;
+import java.cjl.util.Date;
 
 /**
  * ${tableComment}实体类

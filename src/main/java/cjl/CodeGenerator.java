@@ -1,8 +1,10 @@
+package cjl;
+
+import cjl.model.config.CodeGenConfigInfo;
+import cjl.util.CodeGeneratorUtil;
+import cjl.util.LogUtil;
 import com.alibaba.fastjson.JSONObject;
-import model.config.CodeGenConfigInfo;
 import org.apache.commons.io.IOUtils;
-import util.CodeGeneratorUtil;
-import util.LogUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,9 +17,9 @@ import java.nio.charset.StandardCharsets;
  */
 public class CodeGenerator {
     public static void main(String[] args) {
-        InputStream stream = CodeGenerator.class.getResourceAsStream("config.json");
+        InputStream stream = CodeGenerator.class.getResourceAsStream("../config.json");
         try {
-            Long start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
             String json = IOUtils.toString(stream, StandardCharsets.UTF_8);
             LogUtil.SYS.info("读取配置文件--->完成");
 
@@ -31,8 +33,7 @@ public class CodeGenerator {
             Long costTime = System.currentTimeMillis() - start;
             LogUtil.SYS.info("=== 执行成功，耗时 {} 毫秒。请检查文件 ===", costTime);
         } catch (IOException e) {
-            LogUtil.SYS.info("=== 执行失败！===");
-            e.printStackTrace();
+            LogUtil.SYS.error("=== 执行失败！===", e);
         }
     }
 }

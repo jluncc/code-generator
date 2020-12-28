@@ -1,4 +1,4 @@
-package model.vo;
+package cjl.model.vo;
 
 import org.apache.commons.lang3.StringUtils;
 

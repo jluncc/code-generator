@@ -2,7 +2,7 @@ package ${packageName};
 
 import ${entityPackageName};
 
-import java.util.List;
+import java.cjl.util.List;
 
 /**
 * ${tableComment} service层接口

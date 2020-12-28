@@ -1,4 +1,4 @@
-package util;
+package cjl.util;
 
 import org.apache.commons.lang3.StringUtils;
 

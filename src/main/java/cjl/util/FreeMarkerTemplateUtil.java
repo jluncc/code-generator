@@ -1,4 +1,4 @@
-package util;
+package cjl.util;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

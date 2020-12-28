@@ -5,10 +5,10 @@ import ${daoPackageName};
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.cjl.util.List;
+import java.cjl.util.ArrayList;
 <#if orm == 'jpa'>
-import java.util.NoSuchElementException;
+import java.cjl.util.NoSuchElementException;
 </#if>
 
 /**

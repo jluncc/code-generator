@@ -1,4 +1,4 @@
-package model.config;
+package cjl.model.config;
 
 /**
  * 具体生成模块的配置信息

@@ -1,4 +1,4 @@
-package model.config;
+package cjl.model.config;
 
 /**
  * 配置信息，为config.json文件所转换成的对象

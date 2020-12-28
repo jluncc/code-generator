@@ -1,4 +1,4 @@
-package model.config;
+package cjl.model.config;
 
 /**
  * 是否生成插件相应代码的配置信息

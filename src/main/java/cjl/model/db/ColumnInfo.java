@@ -1,4 +1,4 @@
-package model.db;
+package cjl.model.db;
 
 /**
  * 数据库表信息实体类

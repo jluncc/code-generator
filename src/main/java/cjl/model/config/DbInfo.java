@@ -1,4 +1,4 @@
-package model.config;
+package cjl.model.config;
 
 /**
  * 数据库连接配置实体类
