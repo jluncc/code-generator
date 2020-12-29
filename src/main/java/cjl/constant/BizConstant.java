@@ -14,7 +14,7 @@ public interface BizConstant {
     interface GENERATE_STRATEGY {
         String ENTITY = "entity";
         String DAO = "dao";
-        String SERVICE = "cjl/service";
+        String SERVICE = "service";
         String CONTROLLER = "controller";
     }
 }

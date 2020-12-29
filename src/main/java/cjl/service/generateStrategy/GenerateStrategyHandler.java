@@ -11,5 +11,4 @@ public interface GenerateStrategyHandler {
 
     void generateFile(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo);
 
-
 }

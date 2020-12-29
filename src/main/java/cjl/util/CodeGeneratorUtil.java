@@ -6,9 +6,7 @@ import cjl.model.db.ColumnInfo;
 import cjl.service.generateStrategy.GenerateStrategyFactory;
 import freemarker.template.Template;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
@@ -22,14 +20,10 @@ import java.util.Map;
 
 /**
  * 模板代码生成工具类
- *
+ * <p>
  * Created by jinglun on 2020-03-08
  */
-@Component
 public class CodeGeneratorUtil {
-
-    @Resource
-    private GenerateStrategyFactory generateStrategyFactory;
 
     private final CodeGenConfigInfo codeGenConfigInfo;
     private String entityPackageName = "";
@@ -66,8 +60,8 @@ public class CodeGeneratorUtil {
                 columnInfos.add(columnInfo);
             }
 
-            //if (generatorInfo.getGeneratorEntity().isNeedGenerate())
-            //    generateStrategyFactory.get(BizConstant.GENERATE_STRATEGY.ENTITY).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo);
+            if (generatorInfo.getGeneratorEntity().isNeedGenerate())
+                new GenerateStrategyFactory(BizConstant.GENERATE_STRATEGY.ENTITY).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo);
 
             if (generatorInfo.getGeneratorEntity().isNeedGenerate()) generatorEntity(dbInfo, generatorInfo, columnInfos, pluginInfo);
             if (generatorInfo.getGeneratorDao().isNeedGenerate()) generatorDao(dbInfo, generatorInfo, columnInfos);

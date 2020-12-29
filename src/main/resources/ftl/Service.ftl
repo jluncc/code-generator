@@ -5,8 +5,8 @@ import ${daoPackageName};
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.cjl.util.List;
-import java.cjl.util.ArrayList;
+import java.util.List;
+import java.util.ArrayList;
 <#if orm == 'jpa'>
 import java.cjl.util.NoSuchElementException;
 </#if>

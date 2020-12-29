@@ -3,7 +3,7 @@ package ${packageName};
 import ${entityPackageName};
 
 import org.apache.ibatis.annotations.Mapper;
-import java.cjl.util.List;
+import java.util.List;
 
 /**
  * ${tableComment} dao层接口

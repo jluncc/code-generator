@@ -10,16 +10,12 @@ import cjl.util.LogUtil;
 import cjl.util.StrUtil;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class GenerteEntityHandler implements GenerateStrategyHandler {
-
-    @Resource
-    private CommonGenerateHandler commonGenerateHandler;
 
     @Override
     public void generateFile(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo) {
@@ -48,7 +44,7 @@ public class GenerteEntityHandler implements GenerateStrategyHandler {
         dataMap.put("columns", columnInfos);
         dataMap.put("packageName", packageName);
         dataMap.put("pluginInfo", pluginInfo);
-        commonGenerateHandler.generatorFileByTemplate("Entity.ftl", entityFile, dataMap, dbInfo, generatorInfo);
+        CommonGenerateHandler.generatorFileByTemplate("Entity.ftl", entityFile, dataMap, dbInfo, generatorInfo);
         LogUtil.SYS.info("生成entity文件完毕");
     }
 

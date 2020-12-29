@@ -1,6 +1,9 @@
 package ${packageName};
 
-import java.cjl.util.Date;
+<#if pluginInfo.needLombok>
+import lombok.Data;
+</#if>
+import java.util.Date;
 
 /**
  * ${tableComment}实体类

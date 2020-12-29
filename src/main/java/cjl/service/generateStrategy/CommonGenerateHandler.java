@@ -20,7 +20,7 @@ public class CommonGenerateHandler implements GenerateStrategyHandler {
         return;
     }
 
-    public void generatorFileByTemplate(String templateName, File file, Map<String, Object> dataMap,
+    public static void generatorFileByTemplate(String templateName, File file, Map<String, Object> dataMap,
                                         DbInfo dbInfo, GeneratorInfo generatorInfo) {
         try {
             Template template = new FreeMarkerTemplateUtil().getTemplate(templateName);
