@@ -4,17 +4,17 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 字符串操作的工具类
- *
+ * <p>
  * Created by jinglun on 2020-03-08
  */
 public class StrUtil {
 
     /**
      * 下划线转驼峰，并根据firstLetterUp情况，将首字母转成大写。如：
-     *
-     * firstLetterUp为true时，my_method -> MyMethod
+     * <p>
+     * firstLetterUp为true时，my_method -> MyMethod <p>
      * firstLetterUp为false时，my_method -> myMethod
-     *
+     * <p>
      * 入参为空或其他异常情况返回空字符串。
      */
     public static String line2Hump(String str, Boolean firstLetterUp) {
