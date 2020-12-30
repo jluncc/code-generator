@@ -15,10 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GenerteEntityHandler implements GenerateStrategyHandler {
+public class GenerateEntityHandler implements GenerateStrategyHandler {
 
     @Override
-    public void generateFile(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo) {
+    public void generateFile(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo, Map<Object, Object> params) {
         String fileName = String.format("%s.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
         String packageBaseLocation = generatorInfo.getPackageBaseLocation();
         String packageBaseName = generatorInfo.getPackageBaseName();

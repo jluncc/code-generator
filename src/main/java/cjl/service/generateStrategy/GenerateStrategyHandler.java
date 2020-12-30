@@ -6,9 +6,10 @@ import cjl.model.config.PluginInfo;
 import cjl.model.db.ColumnInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GenerateStrategyHandler {
 
-    void generateFile(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo);
+    void generateFile(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo, Map<Object, Object> params);
 
 }

@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * 启动入口
- *
+ * <p>
  * Created by jinglun on 2020-03-08
  */
 public class CodeGenerator {

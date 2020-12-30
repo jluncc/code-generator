@@ -61,122 +61,129 @@ public class CodeGeneratorUtil {
             }
 
             if (generatorInfo.getGeneratorEntity().isNeedGenerate())
-                new GenerateStrategyFactory(BizConstant.GENERATE_STRATEGY.ENTITY).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo);
+                new GenerateStrategyFactory(BizConstant.GENERATE_STRATEGY.ENTITY).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo, null);
 
-            if (generatorInfo.getGeneratorEntity().isNeedGenerate()) generatorEntity(dbInfo, generatorInfo, columnInfos, pluginInfo);
-            if (generatorInfo.getGeneratorDao().isNeedGenerate()) generatorDao(dbInfo, generatorInfo, columnInfos);
-            if (generatorInfo.getGeneratorService().isNeedGenerate()) generatorService(dbInfo, generatorInfo, columnInfos);
-            if (generatorInfo.getGeneratorController().isNeedGenerate()) generatorController(dbInfo, generatorInfo, columnInfos, pluginInfo);
+            if (generatorInfo.getGeneratorDao().isNeedGenerate()) {
+                Map<Object, Object> params = new HashMap<>();
+                params.put("orm", codeGenConfigInfo.getOrm());
+                params.put("entityPackageName", getEntityPackageName());
+                new GenerateStrategyFactory(BizConstant.GENERATE_STRATEGY.DAO).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo, params);
+            }
+
+            //if (generatorInfo.getGeneratorEntity().isNeedGenerate()) generatorEntity(dbInfo, generatorInfo, columnInfos, pluginInfo);
+            //if (generatorInfo.getGeneratorDao().isNeedGenerate()) generatorDao(dbInfo, generatorInfo, columnInfos);
+            //if (generatorInfo.getGeneratorService().isNeedGenerate()) generatorService(dbInfo, generatorInfo, columnInfos);
+            //if (generatorInfo.getGeneratorController().isNeedGenerate()) generatorController(dbInfo, generatorInfo, columnInfos, pluginInfo);
         } catch (Exception e) {
             LogUtil.SYS.error("处理文件生成出现异常。", e);
         }
     }
 
-    private void generatorEntity(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo) {
-        String fileName = String.format("%s.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
-        String packageBaseLocation = generatorInfo.getPackageBaseLocation();
-        String packageBaseName = generatorInfo.getPackageBaseName();
-        ModuleInfo generatorEntity = generatorInfo.getGeneratorEntity();
+    //private void generatorEntity(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo) {
+    //    String fileName = String.format("%s.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
+    //    String packageBaseLocation = generatorInfo.getPackageBaseLocation();
+    //    String packageBaseName = generatorInfo.getPackageBaseName();
+    //    ModuleInfo generatorEntity = generatorInfo.getGeneratorEntity();
+    //
+    //    String filePath = String.format("%s/cjl.model", packageBaseLocation);
+    //    String packageName = String.format("%s.cjl.model", packageBaseLocation);
+    //    if (StringUtils.isNotEmpty(generatorEntity.getDetailPackageName())) {
+    //        filePath = packageBaseLocation + generatorEntity.getDetailPackageName();
+    //        packageName = packageBaseName + generatorEntity.getDetailPackageName().replaceAll("/", ".");
+    //    }
+    //    setEntityPackageName(String.format("%s.%s", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
+    //
+    //    String finalEntityFilePath = filePath + fileName;
+    //    if (!filePath.endsWith("/")) {
+    //        finalEntityFilePath = String.format("%s/%s", filePath, fileName);
+    //    }
+    //    LogUtil.SYS.info("生成entity文件的路径为：{}", finalEntityFilePath);
+    //    // TODO 若目录没有存在，会创建文件失败，待优化
+    //    File entityFile = new File(finalEntityFilePath);
+    //
+    //    Map<String, Object> dataMap = new HashMap<>();
+    //    dataMap.put("columns", columnInfos);
+    //    dataMap.put("packageName", packageName);
+    //    dataMap.put("pluginInfo", pluginInfo);
+    //    generatorFileByTemplate("Entity.ftl", entityFile, dataMap);
+    //    LogUtil.SYS.info("生成entity文件完毕");
+    //}
 
-        String filePath = String.format("%s/cjl.model", packageBaseLocation);
-        String packageName = String.format("%s.cjl.model", packageBaseLocation);
-        if (StringUtils.isNotEmpty(generatorEntity.getDetailPackageName())) {
-            filePath = packageBaseLocation + generatorEntity.getDetailPackageName();
-            packageName = packageBaseName + generatorEntity.getDetailPackageName().replaceAll("/", ".");
-        }
-        setEntityPackageName(String.format("%s.%s", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
+    //private void generatorDao(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
+    //    String fileName = String.format("%sMapper.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
+    //    String packageBaseLocation = generatorInfo.getPackageBaseLocation();
+    //    String packageBaseName = generatorInfo.getPackageBaseName();
+    //    ModuleInfo generatorDao = generatorInfo.getGeneratorDao();
+    //
+    //    // 如果是mybatis，还要生成mapper文件 TODO mybatis待优化生成注解文件
+    //    if (codeGenConfigInfo.getOrm().equalsIgnoreCase(BizConstant.ORM.MyBatis)) {
+    //        String filePath = String.format("%s/mapper", packageBaseLocation);
+    //        String packageName = String.format("%s,mapper", packageBaseName);
+    //        if (StringUtils.isNotEmpty(generatorDao.getDetailPackageName())) {
+    //            filePath = packageBaseLocation + generatorDao.getDetailPackageName();
+    //            packageName = packageBaseName + generatorDao.getDetailPackageName().replaceAll("/", ".");
+    //        }
+    //        setDaoPackageName(String.format("%s.%sMapper", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
+    //
+    //        String entityPackageName = getEntityPackageName();
+    //
+    //        String finalDaoFilePath = filePath + fileName;
+    //        if (!filePath.endsWith("/")) {
+    //            finalDaoFilePath = String.format("%s/%s", filePath, fileName);
+    //        }
+    //        LogUtil.SYS.info("生成dao文件的路径为：{}", finalDaoFilePath);
+    //        File mapperFile = new File(finalDaoFilePath);
+    //
+    //        Map<String, Object> dataMap = new HashMap<>();
+    //        dataMap.put("columns", columnInfos);
+    //        dataMap.put("packageName", packageName);
+    //        dataMap.put("entityPackageName", entityPackageName);
+    //        generatorFileByTemplate("Mapper.ftl", mapperFile, dataMap);
+    //        LogUtil.SYS.info("生成dao文件完毕");
+    //        generatorMapperXML(dataMap, generatorDao.getMapperXMLPath(), dbInfo.getTableName());
+    //    }
+    //    if (codeGenConfigInfo.getOrm().equalsIgnoreCase(BizConstant.ORM.JPA)) {
+    //        fileName = String.format("%sRepository.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
+    //        String filePath = String.format("%s/repository", packageBaseLocation);
+    //        String packageName = String.format("%s,repository", packageBaseName);
+    //        if (StringUtils.isNotEmpty(generatorDao.getDetailPackageName())) {
+    //            filePath = packageBaseLocation + generatorDao.getDetailPackageName();
+    //            packageName = packageBaseName + generatorDao.getDetailPackageName().replaceAll("/", ".");
+    //        }
+    //        setDaoPackageName(String.format("%s.%sRepository", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
+    //
+    //        String entityPackageName = getEntityPackageName();
+    //
+    //        String finalDaoFilePath = filePath + fileName;
+    //        if (!filePath.endsWith("/")) {
+    //            finalDaoFilePath = String.format("%s/%s", filePath, fileName);
+    //        }
+    //        LogUtil.SYS.info("生成dao文件的路径为：{}", finalDaoFilePath);
+    //        File repositoryFile = new File(finalDaoFilePath);
+    //
+    //        Map<String, Object> dataMap = new HashMap<>();
+    //        dataMap.put("columns", columnInfos);
+    //        dataMap.put("packageName", packageName);
+    //        dataMap.put("entityPackageName", entityPackageName);
+    //        generatorFileByTemplate("Repository.ftl", repositoryFile, dataMap);
+    //        LogUtil.SYS.info("生成dao文件完毕");
+    //    }
+    //}
 
-        String finalEntityFilePath = filePath + fileName;
-        if (!filePath.endsWith("/")) {
-            finalEntityFilePath = String.format("%s/%s", filePath, fileName);
-        }
-        LogUtil.SYS.info("生成entity文件的路径为：{}", finalEntityFilePath);
-        // TODO 若目录没有存在，会创建文件失败，待优化
-        File entityFile = new File(finalEntityFilePath);
-
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("columns", columnInfos);
-        dataMap.put("packageName", packageName);
-        dataMap.put("pluginInfo", pluginInfo);
-        generatorFileByTemplate("Entity.ftl", entityFile, dataMap);
-        LogUtil.SYS.info("生成entity文件完毕");
-    }
-
-    private void generatorDao(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
-        String fileName = String.format("%sMapper.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
-        String packageBaseLocation = generatorInfo.getPackageBaseLocation();
-        String packageBaseName = generatorInfo.getPackageBaseName();
-        ModuleInfo generatorDao = generatorInfo.getGeneratorDao();
-
-        // 如果是mybatis，还要生成mapper文件 TODO mybatis待优化生成注解文件
-        if (codeGenConfigInfo.getOrm().equalsIgnoreCase(BizConstant.ORM.MyBatis)) {
-            String filePath = String.format("%s/mapper", packageBaseLocation);
-            String packageName = String.format("%s,mapper", packageBaseName);
-            if (StringUtils.isNotEmpty(generatorDao.getDetailPackageName())) {
-                filePath = packageBaseLocation + generatorDao.getDetailPackageName();
-                packageName = packageBaseName + generatorDao.getDetailPackageName().replaceAll("/", ".");
-            }
-            setDaoPackageName(String.format("%s.%sMapper", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
-
-            String entityPackageName = getEntityPackageName();
-
-            String finalDaoFilePath = filePath + fileName;
-            if (!filePath.endsWith("/")) {
-                finalDaoFilePath = String.format("%s/%s", filePath, fileName);
-            }
-            LogUtil.SYS.info("生成dao文件的路径为：{}", finalDaoFilePath);
-            File mapperFile = new File(finalDaoFilePath);
-
-            Map<String, Object> dataMap = new HashMap<>();
-            dataMap.put("columns", columnInfos);
-            dataMap.put("packageName", packageName);
-            dataMap.put("entityPackageName", entityPackageName);
-            generatorFileByTemplate("Mapper.ftl", mapperFile, dataMap);
-            LogUtil.SYS.info("生成dao文件完毕");
-            generatorMapperXML(dataMap, generatorDao.getMapperXMLPath(), dbInfo.getTableName());
-        }
-        if (codeGenConfigInfo.getOrm().equalsIgnoreCase(BizConstant.ORM.JPA)) {
-            fileName = String.format("%sRepository.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
-            String filePath = String.format("%s/repository", packageBaseLocation);
-            String packageName = String.format("%s,repository", packageBaseName);
-            if (StringUtils.isNotEmpty(generatorDao.getDetailPackageName())) {
-                filePath = packageBaseLocation + generatorDao.getDetailPackageName();
-                packageName = packageBaseName + generatorDao.getDetailPackageName().replaceAll("/", ".");
-            }
-            setDaoPackageName(String.format("%s.%sRepository", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
-
-            String entityPackageName = getEntityPackageName();
-
-            String finalDaoFilePath = filePath + fileName;
-            if (!filePath.endsWith("/")) {
-                finalDaoFilePath = String.format("%s/%s", filePath, fileName);
-            }
-            LogUtil.SYS.info("生成dao文件的路径为：{}", finalDaoFilePath);
-            File repositoryFile = new File(finalDaoFilePath);
-
-            Map<String, Object> dataMap = new HashMap<>();
-            dataMap.put("columns", columnInfos);
-            dataMap.put("packageName", packageName);
-            dataMap.put("entityPackageName", entityPackageName);
-            generatorFileByTemplate("Repository.ftl", repositoryFile, dataMap);
-            LogUtil.SYS.info("生成dao文件完毕");
-        }
-    }
-
-    private void generatorMapperXML(Map<String, Object> dataMap, String mapperXMLPath, String tableName) {
-        if (StringUtils.isEmpty(mapperXMLPath)) {
-            LogUtil.SYS.info("mapperXMLPath不能为空");
-            return;
-        }
-        String finalMapperXMLPath = mapperXMLPath + StrUtil.line2Hump(tableName, true) + "Mapper.xml";
-        if (!mapperXMLPath.endsWith("/")) {
-            finalMapperXMLPath = String.format("%s/%sMapper.xml", mapperXMLPath, StrUtil.line2Hump(tableName, true));
-        }
-        LogUtil.SYS.info("生成mapperXML文件的路径为：{}", finalMapperXMLPath);
-        File mapperXMLFile = new File(finalMapperXMLPath);
-        generatorFileByTemplate("MapperXML.ftl", mapperXMLFile, dataMap);
-        LogUtil.SYS.info("生成mapperXML文件完毕");
-    }
+    //private void generatorMapperXML(Map<String, Object> dataMap, String mapperXMLPath, String tableName) {
+    //    if (StringUtils.isEmpty(mapperXMLPath)) {
+    //        LogUtil.SYS.info("mapperXMLPath不能为空");
+    //        return;
+    //    }
+    //    String finalMapperXMLPath = mapperXMLPath + StrUtil.line2Hump(tableName, true) + "Mapper.xml";
+    //    if (!mapperXMLPath.endsWith("/")) {
+    //        finalMapperXMLPath = String.format("%s/%sMapper.xml", mapperXMLPath, StrUtil.line2Hump(tableName, true));
+    //    }
+    //    LogUtil.SYS.info("生成mapperXML文件的路径为：{}", finalMapperXMLPath);
+    //    File mapperXMLFile = new File(finalMapperXMLPath);
+    //    generatorFileByTemplate("MapperXML.ftl", mapperXMLFile, dataMap);
+    //    LogUtil.SYS.info("生成mapperXML文件完毕");
+    //}
 
     private void generatorService(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos) {
         String fileName = String.format("%sService.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
