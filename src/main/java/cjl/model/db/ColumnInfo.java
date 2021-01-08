@@ -2,7 +2,7 @@ package cjl.model.db;
 
 /**
  * 数据库表信息实体类
- *
+ * <p>
  * Created by jinglun on 2020-03-08
  */
 public class ColumnInfo {

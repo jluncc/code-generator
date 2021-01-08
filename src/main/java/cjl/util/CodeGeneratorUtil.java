@@ -14,9 +14,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 模板代码生成工具类
@@ -26,9 +24,6 @@ import java.util.Map;
 public class CodeGeneratorUtil {
 
     private final CodeGenConfigInfo codeGenConfigInfo;
-    private String entityPackageName = "";
-    private String daoPackageName = "";
-    private String servicePackageName = "";
 
     public CodeGeneratorUtil(CodeGenConfigInfo codeGenConfigInfo) {
         this.codeGenConfigInfo = codeGenConfigInfo;
@@ -39,8 +34,10 @@ public class CodeGeneratorUtil {
             LogUtil.SYS.info("=== 配置信息不合法，请检查配置信息 ===");
             return;
         }
+
         DbInfo dbInfo = codeGenConfigInfo.getDbInfo();
         GeneratorInfo generatorInfo = codeGenConfigInfo.getGeneratorInfo();
+        generatorInfo.setOrm(codeGenConfigInfo.getOrm());
         PluginInfo pluginInfo = codeGenConfigInfo.getPluginInfo();
 
         try {
@@ -60,30 +57,17 @@ public class CodeGeneratorUtil {
                 columnInfos.add(columnInfo);
             }
 
-            if (generatorInfo.getGeneratorEntity().isNeedGenerate())
+            if (generatorInfo.getGeneratorEntity().isNeedGenerate()) {
                 new GenerateStrategyFactory(BizConstant.GENERATE_STRATEGY.ENTITY).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo, null);
-
+            }
             if (generatorInfo.getGeneratorDao().isNeedGenerate()) {
-                Map<Object, Object> params = new HashMap<>();
-                params.put("orm", codeGenConfigInfo.getOrm());
-                params.put("entityPackageName", getEntityPackageName());
-                new GenerateStrategyFactory(BizConstant.GENERATE_STRATEGY.DAO).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo, params);
+                new GenerateStrategyFactory(BizConstant.GENERATE_STRATEGY.DAO).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo, null);
             }
-
             if (generatorInfo.getGeneratorService().isNeedGenerate()) {
-                Map<Object, Object> params = new HashMap<>();
-                params.put("orm", codeGenConfigInfo.getOrm());
-                params.put("entityPackageName", getEntityPackageName());
-                params.put("daoPackageName", getDaoPackageName());
-                new GenerateStrategyFactory(BizConstant.GENERATE_STRATEGY.SERVICE).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo, params);
+                new GenerateStrategyFactory(BizConstant.GENERATE_STRATEGY.SERVICE).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo, null);
             }
-
             if (generatorInfo.getGeneratorController().isNeedGenerate()) {
-                Map<Object, Object> params = new HashMap<>();
-                params.put("orm", codeGenConfigInfo.getOrm());
-                params.put("entityPackageName", getEntityPackageName());
-                params.put("servicePackageName", getServicePackageName());
-                new GenerateStrategyFactory(BizConstant.GENERATE_STRATEGY.CONTROLLER).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo, params);
+                new GenerateStrategyFactory(BizConstant.GENERATE_STRATEGY.CONTROLLER).generateFile(dbInfo, generatorInfo, columnInfos, pluginInfo, null);
             }
         } catch (Exception e) {
             LogUtil.SYS.error("处理文件生成出现异常。", e);
@@ -121,7 +105,6 @@ public class CodeGeneratorUtil {
             LogUtil.SYS.info("=== 参数校验异常：插件配置信息异常！===");
             return false;
         }
-
         return true;
     }
 
@@ -133,27 +116,4 @@ public class CodeGeneratorUtil {
         return DriverManager.getConnection(dbInfo.getUrl(), dbInfo.getUsername(), dbInfo.getPassword());
     }
 
-    public String getEntityPackageName() {
-        return entityPackageName;
-    }
-
-    public void setEntityPackageName(String entityPackageName) {
-        this.entityPackageName = entityPackageName;
-    }
-
-    public String getDaoPackageName() {
-        return daoPackageName;
-    }
-
-    public void setDaoPackageName(String daoPackageName) {
-        this.daoPackageName = daoPackageName;
-    }
-
-    public String getServicePackageName() {
-        return servicePackageName;
-    }
-
-    public void setServicePackageName(String servicePackageName) {
-        this.servicePackageName = servicePackageName;
-    }
 }

@@ -24,13 +24,13 @@ public class GenerateEntityHandler implements GenerateStrategyHandler {
         String packageBaseName = generatorInfo.getPackageBaseName();
         ModuleInfo generatorEntity = generatorInfo.getGeneratorEntity();
 
-        String filePath = String.format("%s/cjl.model", packageBaseLocation);
-        String packageName = String.format("%s.cjl.model", packageBaseLocation);
+        String filePath = String.format("%s/model", packageBaseLocation);
+        String packageName = String.format("%s.model", packageBaseLocation);
         if (StringUtils.isNotEmpty(generatorEntity.getDetailPackageName())) {
             filePath = packageBaseLocation + generatorEntity.getDetailPackageName();
             packageName = packageBaseName + generatorEntity.getDetailPackageName().replaceAll("/", ".");
         }
-        //setEntityPackageName(String.format("%s.%s", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
+        generatorInfo.setEntityPackageName(String.format("%s.%s", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
 
         String finalEntityFilePath = filePath + fileName;
         if (!filePath.endsWith("/")) {

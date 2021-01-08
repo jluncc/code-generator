@@ -36,9 +36,9 @@ public class GenerateControllerHandler implements GenerateStrategyHandler {
         LogUtil.SYS.info("生成controller文件的路径为：{}", finalControllerFilePath);
         File serviceFile = new File(finalControllerFilePath);
 
-        String orm = params.get("orm").toString();
-        String entityPackageName = params.get("entityPackageName").toString();
-        String servicePackageName = params.get("servicePackageName").toString();
+        String orm = generatorInfo.getOrm();
+        String entityPackageName = generatorInfo.getEntityPackageName();
+        String servicePackageName = generatorInfo.getServicePackageName();
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("columns", columnInfos);

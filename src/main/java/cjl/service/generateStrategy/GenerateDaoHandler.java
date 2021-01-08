@@ -24,8 +24,8 @@ public class GenerateDaoHandler implements GenerateStrategyHandler {
         String packageBaseName = generatorInfo.getPackageBaseName();
         ModuleInfo generatorDao = generatorInfo.getGeneratorDao();
 
-        String orm = params.get("orm").toString();
-        String entityPackageName = params.get("entityPackageName").toString();
+        String orm = generatorInfo.getOrm();
+        String entityPackageName = generatorInfo.getEntityPackageName();
 
         // 如果是mybatis，还要生成mapper文件 TODO mybatis待优化生成注解文件
         if (BizConstant.ORM.MyBatis.equalsIgnoreCase(orm)) {
@@ -35,8 +35,7 @@ public class GenerateDaoHandler implements GenerateStrategyHandler {
                 filePath = packageBaseLocation + generatorDao.getDetailPackageName();
                 packageName = packageBaseName + generatorDao.getDetailPackageName().replaceAll("/", ".");
             }
-            // TODO
-            //setDaoPackageName(String.format("%s.%sMapper", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
+            generatorInfo.setDaoPackageName(String.format("%s.%sMapper", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
 
             String finalDaoFilePath = filePath + fileName;
             if (!filePath.endsWith("/")) {
@@ -61,7 +60,7 @@ public class GenerateDaoHandler implements GenerateStrategyHandler {
                 filePath = packageBaseLocation + generatorDao.getDetailPackageName();
                 packageName = packageBaseName + generatorDao.getDetailPackageName().replaceAll("/", ".");
             }
-            //setDaoPackageName(String.format("%s.%sRepository", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
+            generatorInfo.setDaoPackageName(String.format("%s.%sMapper", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
 
             String finalDaoFilePath = filePath + fileName;
             if (!filePath.endsWith("/")) {

@@ -23,13 +23,13 @@ public class GenerateServiceHandler implements GenerateStrategyHandler {
         String packageBaseName = generatorInfo.getPackageBaseName();
         ModuleInfo generatorService = generatorInfo.getGeneratorService();
 
-        String filePath = String.format("%s/cjl.service", packageBaseLocation);
-        String packageName = String.format("%s.cjl.service", packageBaseName);
+        String filePath = String.format("%s/service", packageBaseLocation);
+        String packageName = String.format("%s.service", packageBaseName);
         if (StringUtils.isNotEmpty(generatorService.getDetailPackageName())) {
             filePath = packageBaseLocation + generatorService.getDetailPackageName();
             packageName = packageBaseName + generatorService.getDetailPackageName().replaceAll("/", ".");
         }
-        //setServicePackageName(String.format("%s.%sService", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
+        generatorInfo.setServicePackageName(String.format("%s.%sService", packageName, StrUtil.line2Hump(dbInfo.getTableName(), true)));
 
         String finalServiceFilePath = filePath + fileName;
         String finalServiceImplFilePath = filePath + implFileName;
@@ -41,9 +41,9 @@ public class GenerateServiceHandler implements GenerateStrategyHandler {
         LogUtil.SYS.info("生成service文件的路径为：{}", finalServiceFilePath);
         File serviceFile = new File(finalServiceFilePath);
 
-        String orm = params.get("orm").toString();
-        String entityPackageName = params.get("entityPackageName").toString();
-        String daoPackageName = params.get("daoPackageName").toString();
+        String orm = generatorInfo.getOrm();
+        String entityPackageName = generatorInfo.getEntityPackageName();
+        String daoPackageName = generatorInfo.getDaoPackageName();
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("columns", columnInfos);

@@ -18,6 +18,12 @@ public class GeneratorInfo {
     private ModuleInfo generatorService;
     private ModuleInfo generatorController;
 
+    private String orm;
+
+    private String entityPackageName = "";
+    private String daoPackageName = "";
+    private String servicePackageName = "";
+
     public String getAuthor() {
         return author;
     }
@@ -80,5 +86,37 @@ public class GeneratorInfo {
 
     public void setGeneratorController(ModuleInfo generatorController) {
         this.generatorController = generatorController;
+    }
+
+    public String getOrm() {
+        return orm;
+    }
+
+    public void setOrm(String orm) {
+        this.orm = orm;
+    }
+
+    public String getEntityPackageName() {
+        return entityPackageName;
+    }
+
+    public void setEntityPackageName(String entityPackageName) {
+        this.entityPackageName = entityPackageName;
+    }
+
+    public String getDaoPackageName() {
+        return daoPackageName;
+    }
+
+    public void setDaoPackageName(String daoPackageName) {
+        this.daoPackageName = daoPackageName;
+    }
+
+    public String getServicePackageName() {
+        return servicePackageName;
+    }
+
+    public void setServicePackageName(String servicePackageName) {
+        this.servicePackageName = servicePackageName;
     }
 }
