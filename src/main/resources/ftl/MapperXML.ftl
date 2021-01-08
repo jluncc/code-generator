@@ -26,8 +26,8 @@
     </select>
 
     <insert id="create${tableName}" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
-        insert into ${tableNameOrigin}(<#if columns?exists><#list columns as column>column.columnNameOrigin<#if column_has_next>,</#if></#list></#if>)
-        values (<#if columns?exists><#list columns as column>${r'#{'}${column.columnName?uncap_first}${r'}'}<#if column_has_next>,</#if></#list></#if>);
+        insert into ${tableNameOrigin}(<#if columns?exists><#list columns as column><#if column.columnNameOrigin != 'id'>${column.columnNameOrigin}<#if column_has_next>,</#if></#if></#list></#if>)
+        values (<#if columns?exists><#list columns as column><#if column.columnNameOrigin != 'id'>${r'#{'}${column.columnName?uncap_first}${r'}'}<#if column_has_next>,</#if></#if></#list></#if>);
     </insert>
 
     <update id="update${tableName}">
