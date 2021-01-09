@@ -1,6 +1,5 @@
 package cjl.service.generateStrategy;
 
-
 import cjl.model.config.DbInfo;
 import cjl.model.config.GeneratorInfo;
 import cjl.model.config.ModuleInfo;

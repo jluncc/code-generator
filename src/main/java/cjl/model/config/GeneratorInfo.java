@@ -2,7 +2,7 @@ package cjl.model.config;
 
 /**
  * 生成文件的配置信息
- *
+ * <p>
  * Created by jinglun on 2020-03-08
  */
 public class GeneratorInfo {

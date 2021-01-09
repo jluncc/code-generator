@@ -17,8 +17,7 @@ import java.util.Map;
 
 public class GenerateDaoHandler implements GenerateStrategyHandler {
     @Override
-    public void generateFile(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo,
-                             Map<Object, Object> params) {
+    public void generateFile(DbInfo dbInfo, GeneratorInfo generatorInfo, List<ColumnInfo> columnInfos, PluginInfo pluginInfo, Map<Object, Object> params) {
         String fileName = String.format("%sMapper.java", StrUtil.line2Hump(dbInfo.getTableName(), true));
         String packageBaseLocation = generatorInfo.getPackageBaseLocation();
         String packageBaseName = generatorInfo.getPackageBaseName();

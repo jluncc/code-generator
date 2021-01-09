@@ -1,6 +1,4 @@
 {
-  "orm": "mybatis",
-
   "dbInfo": {
     "url": "jdbc:mysql://localhost:3306/test",
     "username": "username",
@@ -12,6 +10,7 @@
   },
 
   "generatorInfo": {
+    "orm": "mybatis",
     "author": "jinglun",
     "packageBaseLocation": "/Users/jinglun/Desktop/springboot-demo/src/main/java/com/example/demo",
     "packageBaseName": "com.example.demo",

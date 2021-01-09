@@ -2,7 +2,7 @@ package cjl.model.config;
 
 /**
  * 数据库连接配置实体类
- *
+ * <p>
  * Created by jinglun on 2020-03-08
  */
 public class DbInfo {

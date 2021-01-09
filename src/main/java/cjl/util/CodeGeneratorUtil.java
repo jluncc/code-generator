@@ -37,7 +37,6 @@ public class CodeGeneratorUtil {
 
         DbInfo dbInfo = codeGenConfigInfo.getDbInfo();
         GeneratorInfo generatorInfo = codeGenConfigInfo.getGeneratorInfo();
-        generatorInfo.setOrm(codeGenConfigInfo.getOrm());
         PluginInfo pluginInfo = codeGenConfigInfo.getPluginInfo();
 
         try {
@@ -78,7 +77,7 @@ public class CodeGeneratorUtil {
      * 校验参数是否合法：合法-true；不合法-false
      */
     private boolean configEffective(CodeGenConfigInfo codeGenConfigInfo) {
-        if (StringUtils.isEmpty(codeGenConfigInfo.getOrm())) {
+        if (StringUtils.isEmpty(codeGenConfigInfo.getGeneratorInfo().getOrm())) {
             LogUtil.SYS.info("=== 参数校验异常：orm框架不能为空！===");
             return false;
         }
