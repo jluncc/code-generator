@@ -34,7 +34,11 @@ public class GenerateControllerHandler implements GenerateStrategyHandler {
             finalControllerFilePath = String.format("%s/%s", filePath, fileName);
         }
         LogUtil.SYS.info("生成controller文件的路径为：{}", finalControllerFilePath);
-        File serviceFile = new File(finalControllerFilePath);
+        File controllerFile = new File(finalControllerFilePath);
+
+        String finalApiResultFilePath = filePath + "/ApiResult.java";
+        LogUtil.SYS.info("生成ApiResult文件的路径为：{}", finalApiResultFilePath);
+        File apiResultFile = new File(finalApiResultFilePath);
 
         String orm = generatorInfo.getOrm();
         String entityPackageName = generatorInfo.getEntityPackageName();
@@ -48,7 +52,8 @@ public class GenerateControllerHandler implements GenerateStrategyHandler {
         dataMap.put("servicePackageName", servicePackageName);
         dataMap.put("pluginInfo", pluginInfo);
         dataMap.put("orm", orm);
-        CommonGenerateHandler.generatorFileByTemplate("Controller.ftl", serviceFile, dataMap, dbInfo, generatorInfo);
+        CommonGenerateHandler.generatorFileByTemplate("Controller.ftl", controllerFile, dataMap, dbInfo, generatorInfo);
+        CommonGenerateHandler.generatorFileByTemplate("ApiResult.ftl", apiResultFile, dataMap, dbInfo, generatorInfo);
         LogUtil.SYS.info("生成controller文件完毕");
     }
 }

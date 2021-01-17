@@ -1,7 +1,7 @@
-package cjl.model.vo;
+package ${packageName};
 
 /**
- * Created by jinglun on 2020-03-14
+ * Created by ${author} on ${date}
  */
 public class ApiResult {
     private Integer code;
