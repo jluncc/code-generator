@@ -49,12 +49,9 @@
 
     <!-- 3.定义日志输出级别 -->
     <!-- 只在本地环境输出业务日志到控制台 -->
-    <springProfile name="default">
-        <root level="INFO">
-            <appender-ref ref="STDOUT" />
-        </root>
-    </springProfile>
-
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
     <!-- 定义业务日志和错误日志的logger -->
     <logger name="sys" level="INFO">
         <appender-ref ref="SYS" />
