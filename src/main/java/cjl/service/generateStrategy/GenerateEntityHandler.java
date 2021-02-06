@@ -36,8 +36,13 @@ public class GenerateEntityHandler implements GenerateStrategyHandler {
             finalEntityFilePath = String.format("%s/%s", filePath, fileName);
         }
         LogUtil.SYS.info("生成entity文件的路径为：{}", finalEntityFilePath);
-        // TODO 若目录没有存在，会创建文件失败，待优化
         File entityFile = new File(finalEntityFilePath);
+        if (!entityFile.getParentFile().exists()) {
+            if (!entityFile.getParentFile().mkdirs()) {
+                LogUtil.ERR.error("尝试创建文件夹失败，直接返回！文件夹路径：{}", entityFile.getParentFile());
+                return;
+            }
+        }
 
         Map<String, Object> dataMap = new HashMap<>();
         dataMap.put("columns", columnInfos);
