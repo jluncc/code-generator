@@ -35,10 +35,22 @@ public class GenerateControllerHandler implements GenerateStrategyHandler {
         }
         LogUtil.SYS.info("生成controller文件的路径为：{}", finalControllerFilePath);
         File controllerFile = new File(finalControllerFilePath);
+        if (!controllerFile.getParentFile().exists()) {
+            if (!controllerFile.getParentFile().mkdirs()) {
+                LogUtil.ERR.error("尝试创建文件夹失败，直接返回！文件夹路径：{}", controllerFile.getParentFile());
+                return;
+            }
+        }
 
         String finalApiResultFilePath = filePath + "/ApiResult.java";
         LogUtil.SYS.info("生成ApiResult文件的路径为：{}", finalApiResultFilePath);
         File apiResultFile = new File(finalApiResultFilePath);
+        if (!apiResultFile.getParentFile().exists()) {
+            if (!apiResultFile.getParentFile().mkdirs()) {
+                LogUtil.ERR.error("尝试创建文件夹失败，直接返回！文件夹路径：{}", apiResultFile.getParentFile());
+                return;
+            }
+        }
 
         String orm = generatorInfo.getOrm();
         String entityPackageName = generatorInfo.getEntityPackageName();

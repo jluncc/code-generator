@@ -40,6 +40,12 @@ public class GenerateServiceHandler implements GenerateStrategyHandler {
 
         LogUtil.SYS.info("生成service文件的路径为：{}", finalServiceFilePath);
         File serviceFile = new File(finalServiceFilePath);
+        if (!serviceFile.getParentFile().exists()) {
+            if (!serviceFile.getParentFile().mkdirs()) {
+                LogUtil.ERR.error("尝试创建文件夹失败，直接返回！文件夹路径：{}", serviceFile.getParentFile());
+                return;
+            }
+        }
 
         String orm = generatorInfo.getOrm();
         String entityPackageName = generatorInfo.getEntityPackageName();

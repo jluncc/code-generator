@@ -42,6 +42,12 @@ public class GenerateDaoHandler implements GenerateStrategyHandler {
             }
             LogUtil.SYS.info("生成dao文件的路径为：{}", finalDaoFilePath);
             File mapperFile = new File(finalDaoFilePath);
+            if (!mapperFile.getParentFile().exists()) {
+                if (!mapperFile.getParentFile().mkdirs()) {
+                    LogUtil.ERR.error("尝试创建文件夹失败，直接返回！文件夹路径：{}", mapperFile.getParentFile());
+                    return;
+                }
+            }
 
             Map<String, Object> dataMap = new HashMap<>();
             dataMap.put("columns", columnInfos);
@@ -67,6 +73,12 @@ public class GenerateDaoHandler implements GenerateStrategyHandler {
             }
             LogUtil.SYS.info("生成dao文件的路径为：{}", finalDaoFilePath);
             File repositoryFile = new File(finalDaoFilePath);
+            if (!repositoryFile.getParentFile().exists()) {
+                if (!repositoryFile.getParentFile().mkdirs()) {
+                    LogUtil.ERR.error("尝试创建文件夹失败，直接返回！文件夹路径：{}", repositoryFile.getParentFile());
+                    return;
+                }
+            }
 
             Map<String, Object> dataMap = new HashMap<>();
             dataMap.put("columns", columnInfos);
