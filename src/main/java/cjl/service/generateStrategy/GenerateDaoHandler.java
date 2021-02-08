@@ -6,6 +6,7 @@ import cjl.model.config.GeneratorInfo;
 import cjl.model.config.ModuleInfo;
 import cjl.model.config.PluginInfo;
 import cjl.model.db.ColumnInfo;
+import cjl.util.FileUtil;
 import cjl.util.LogUtil;
 import cjl.util.StrUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -42,12 +43,7 @@ public class GenerateDaoHandler implements GenerateStrategyHandler {
             }
             LogUtil.SYS.info("生成dao文件的路径为：{}", finalDaoFilePath);
             File mapperFile = new File(finalDaoFilePath);
-            if (!mapperFile.getParentFile().exists()) {
-                if (!mapperFile.getParentFile().mkdirs()) {
-                    LogUtil.ERR.error("尝试创建文件夹失败，直接返回！文件夹路径：{}", mapperFile.getParentFile());
-                    return;
-                }
-            }
+            if (!FileUtil.mkdirs(mapperFile.getParentFile())) return;
 
             Map<String, Object> dataMap = new HashMap<>();
             dataMap.put("columns", columnInfos);
@@ -73,12 +69,7 @@ public class GenerateDaoHandler implements GenerateStrategyHandler {
             }
             LogUtil.SYS.info("生成dao文件的路径为：{}", finalDaoFilePath);
             File repositoryFile = new File(finalDaoFilePath);
-            if (!repositoryFile.getParentFile().exists()) {
-                if (!repositoryFile.getParentFile().mkdirs()) {
-                    LogUtil.ERR.error("尝试创建文件夹失败，直接返回！文件夹路径：{}", repositoryFile.getParentFile());
-                    return;
-                }
-            }
+            if (!FileUtil.mkdirs(repositoryFile.getParentFile())) return;
 
             Map<String, Object> dataMap = new HashMap<>();
             dataMap.put("columns", columnInfos);
