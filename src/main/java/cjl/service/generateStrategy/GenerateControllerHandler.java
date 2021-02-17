@@ -38,25 +38,26 @@ public class GenerateControllerHandler implements GenerateStrategyHandler {
         File controllerFile = new File(finalControllerFilePath);
         if (!FileUtil.mkdirs(controllerFile.getParentFile())) return;
 
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("columns", columnInfos);
+        dataMap.put("packageName", packageName);
+        dataMap.put("mappingUrl", generatorController.getMappingUrl());
+        dataMap.put("entityPackageName", generatorInfo.getEntityPackageName());
+        dataMap.put("servicePackageName", generatorInfo.getServicePackageName());
+        dataMap.put("pluginInfo", pluginInfo);
+        dataMap.put("orm", generatorInfo.getOrm());
+
+        handleApiResultGenerate(filePath, dataMap, dbInfo, generatorInfo);
+        CommonGenerateHandler.generatorFileByTemplate("Controller.ftl", controllerFile, dataMap, dbInfo, generatorInfo);
+        LogUtil.SYS.info("生成controller文件完毕");
+    }
+
+    private void handleApiResultGenerate(String filePath, Map<String, Object> dataMap, DbInfo dbInfo, GeneratorInfo generatorInfo) {
         String finalApiResultFilePath = filePath + "/ApiResult.java";
         LogUtil.SYS.info("生成ApiResult文件的路径为：{}", finalApiResultFilePath);
         File apiResultFile = new File(finalApiResultFilePath);
         if (!FileUtil.mkdirs(apiResultFile.getParentFile())) return;
 
-        String orm = generatorInfo.getOrm();
-        String entityPackageName = generatorInfo.getEntityPackageName();
-        String servicePackageName = generatorInfo.getServicePackageName();
-
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("columns", columnInfos);
-        dataMap.put("packageName", packageName);
-        dataMap.put("mappingUrl", generatorController.getMappingUrl());
-        dataMap.put("entityPackageName", entityPackageName);
-        dataMap.put("servicePackageName", servicePackageName);
-        dataMap.put("pluginInfo", pluginInfo);
-        dataMap.put("orm", orm);
-        CommonGenerateHandler.generatorFileByTemplate("Controller.ftl", controllerFile, dataMap, dbInfo, generatorInfo);
         CommonGenerateHandler.generatorFileByTemplate("ApiResult.ftl", apiResultFile, dataMap, dbInfo, generatorInfo);
-        LogUtil.SYS.info("生成controller文件完毕");
     }
 }
