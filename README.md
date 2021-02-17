@@ -6,6 +6,8 @@
 
 ![项目类间关联图](./doc/code-generator设计.png)
 
+使用策略模式，根据需要生成的文件，从 GenerateStrategyFactory 获取不同的 handler 策略进行生成。
+
 ### 使用说明
 
 #### 1. 用法
