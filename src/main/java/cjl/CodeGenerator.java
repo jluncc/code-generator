@@ -3,8 +3,10 @@ package cjl;
 import cjl.model.config.CodeGenConfigInfo;
 import cjl.util.CodeGeneratorUtil;
 import cjl.util.LogUtil;
+import cjl.util.TraceIdUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.MDC;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +19,9 @@ import java.nio.charset.StandardCharsets;
  */
 public class CodeGenerator {
     public static void main(String[] args) {
+        // 设置traceId
+        MDC.put("traceId", TraceIdUtil.buildTraceId());
+
         InputStream stream = CodeGenerator.class.getResourceAsStream("../config.json");
         try {
             long start = System.currentTimeMillis();
