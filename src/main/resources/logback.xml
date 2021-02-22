@@ -4,12 +4,14 @@
     <!-- 1.定义常量 -->
     <!-- 日志存储路径 -->
     <property name="LOG_HOME" value="/Users/jinglun/Desktop/logs" />
+    <!-- logback中括号有特殊含义，\\) 才能输出 ) -->
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}][%thread] %-5level (%file:%line\\) - %msg%n" />
 
     <!-- 2.定义不同appender -->
     <!-- 控制台日志 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}][%thread] %-5level (%file:%line\) - %msg%n</pattern>
+            <pattern>${LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
@@ -22,7 +24,7 @@
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}][%thread] %-5level (%file:%line\) - %msg%n</pattern>
+            <pattern>${LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <!--日志文件最大的大小-->
@@ -38,7 +40,7 @@
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{traceId}][%thread] %-5level (%file:%line\) - %msg%n</pattern>
+            <pattern>${LOG_PATTERN}</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <!--日志文件最大的大小-->
